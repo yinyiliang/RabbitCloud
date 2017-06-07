@@ -6,12 +6,13 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="yyl.rabbitcloud.MainActivity">
+    tools:context="yyl.rabbitcloud.mvp.activity.MainActivity">
 
     <EditText
         android:layout_centerInParent="true"
         android:background="@drawable/input_layout"
         android:layout_margin="@dimen/dip_twenty"
+        android:hint="请输入内容"
         android:layout_width="match_parent"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"

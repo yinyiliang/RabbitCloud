@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_splash"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:layout_weight="5"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dip_fifty"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_splash_slogan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dip_forty"
+            android:layout_marginStart="@dimen/dip_forty"
+            android:textSize="@dimen/sp_fifteen"
+            tools:text="“尊重对手。所以我选择，打爆你！”"/>
+
+        <TextView
+            android:id="@+id/tv_splash_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dip_forty"
+            android:layout_marginTop="@dimen/dip_twenty"
+            android:textSize="@dimen/sp_forteen"
+            tools:text="熊猫主播|药水哥"/>
+    </LinearLayout>
+
+</LinearLayout>

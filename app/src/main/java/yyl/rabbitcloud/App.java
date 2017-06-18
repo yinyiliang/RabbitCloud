@@ -2,9 +2,10 @@ package yyl.rabbitcloud;
 
 import android.app.Application;
 
-import yyl.rabbitcloud.di.component.DaggerRetrofitComponent;
-import yyl.rabbitcloud.di.component.RetrofitComponent;
-import yyl.rabbitcloud.di.module.RetrofitHelperModule;
+import yyl.rabbitcloud.di.component.AppComponent;
+import yyl.rabbitcloud.di.component.DaggerAppComponent;
+import yyl.rabbitcloud.di.module.AppModule;
+import yyl.rabbitcloud.di.module.RabbitApiModule;
 
 /**
  * Created by yyl on 2017/6/2.
@@ -12,16 +13,30 @@ import yyl.rabbitcloud.di.module.RetrofitHelperModule;
 
 public class App extends Application {
 
-    private RetrofitComponent mAppComponent;
+    private static App sInstance;
+
+    private AppComponent mAppComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sInstance = this;
 
-        mAppComponent = DaggerRetrofitComponent.builder().retrofitHelperModule(new RetrofitHelperModule(this, RabbitPublicValue.BASE_URL)).build();
+        initComponent();
     }
 
-    public RetrofitComponent getAppComponent() {
+    private void initComponent() {
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .rabbitApiModule(new RabbitApiModule())
+                .build();
+    }
+
+    public static App getAppInstance() {
+        return sInstance;
+    }
+
+    public AppComponent getAppComponent() {
         return mAppComponent;
     }
 }

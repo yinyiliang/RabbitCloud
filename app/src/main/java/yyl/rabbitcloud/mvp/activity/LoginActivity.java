@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import yyl.rabbitcloud.R;
+import yyl.rabbitcloud.home.MainActivity;
 import yyl.rabbitcloud.util.RenderScriptHelper;
 import yyl.rabbitcloud.widget.LoginButton;
 
@@ -76,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private void initData() {
         Random r = new Random(SystemClock.elapsedRealtime());
         Bitmap myBitmap = BitmapFactory.decodeResource(getResources(),
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                     btn_login.setState(LoginButton.STATUS_ERROR);
                 } else {
                     btn_login.startOk();
-                    new Handler().postDelayed(new Runnable(){
+                    new Handler().postDelayed(new Runnable() {
                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         public void run() {
                             startAnimate();
@@ -114,9 +114,9 @@ public class LoginActivity extends AppCompatActivity {
         int x = location[0];
         int y = location[1];
         Animator mAnimator = ViewAnimationUtils.createCircularReveal(color_view,
-                x + btn_login.getMeasuredWidth()/2,
-                y + btn_login.getMeasuredHeight()/2,
-                btn_login.getWidth()/2, login_content.getHeight());
+                x + btn_login.getMeasuredWidth() / 2,
+                y + btn_login.getMeasuredHeight() / 2,
+                btn_login.getWidth() / 2, login_content.getHeight());
         mAnimator.setDuration(400);
         mAnimator.setInterpolator(new AccelerateInterpolator());
         mAnimator.addListener(new AnimatorListenerAdapter() {
@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-		        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
 
             @Override

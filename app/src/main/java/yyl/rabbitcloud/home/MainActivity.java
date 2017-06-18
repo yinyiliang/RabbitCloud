@@ -1,4 +1,4 @@
-package yyl.rabbitcloud.mvp.activity;
+package yyl.rabbitcloud.home;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;

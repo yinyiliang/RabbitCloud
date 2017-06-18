@@ -19,7 +19,7 @@
         android:paddingStart="@dimen/dip_thirty"
         android:paddingEnd="@dimen/dip_thirty">
 
-        <yyl.yinrabbit.widget.LoginButton
+        <yyl.rabbitcloud.widget.LoginButton
             android:id="@+id/btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

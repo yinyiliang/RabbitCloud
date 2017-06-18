@@ -5,6 +5,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 import yyl.rabbitcloud.bean.CategoryBean;
 import yyl.rabbitcloud.bean.FindRoomInfoByIdBean;
+import yyl.rabbitcloud.bean.RecommendInfoBean;
 import yyl.rabbitcloud.bean.RoomBean;
 import yyl.rabbitcloud.bean.SearchRoomBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
@@ -21,9 +22,17 @@ public interface ServiceAPI {
      *     method=clientconf.firstscreen&__version=3.1.4.36223&__plat=android&__channel=guanwang
      */
     @GET("index.php?method=clientconf.firstscreen&__version=3.1.4.36223&__plat=android&__channel=guanwang")
-    Observable<SplashScreenBean> getSplashScreenn();
+    Observable<SplashScreenBean> getSplashScreen();
 
-    //所有类别 返回其中10个频道
+    //推荐界面
+    /*
+    http://static.api.m.panda.tv/android_hd/androidhdindex.json
+    包括 广告栏  和热门数据
+     */
+    @GET("android_hd/androidhdindex.json")
+    Observable<RecommendInfoBean> getRecommendData();
+
+    //所有类别 返回其中10个频道  全部
     /**
      * pageno=1 返回10条、 pageno=2 返回另外10条
      *

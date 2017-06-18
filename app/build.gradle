@@ -44,8 +44,10 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.6'
     //
     compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.google.dagger:dagger:2.9'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.android.support:design:25.3.1'
+    //底部导航栏
+    compile 'me.majiajie:pager-bottom-tab-strip:2.1.0'
 }

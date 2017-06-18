@@ -30,10 +30,10 @@
             android:name=".slash.SplashActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".home.MainActivity"
+            android:name=".main.MainActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".mvp.activity.LoginActivity"
+            android:name=".login.LoginActivity"
             android:screenOrientation="portrait"/>
     </application>
 

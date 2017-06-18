@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">兔图TV</string>
+
+    <string name="search">搜索</string>
 </resources>

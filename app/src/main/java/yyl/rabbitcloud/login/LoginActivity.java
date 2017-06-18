@@ -1,4 +1,4 @@
-package yyl.rabbitcloud.mvp.activity;
+package yyl.rabbitcloud.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import yyl.rabbitcloud.R;
-import yyl.rabbitcloud.home.MainActivity;
+import yyl.rabbitcloud.main.MainActivity;
 import yyl.rabbitcloud.util.RenderScriptHelper;
 import yyl.rabbitcloud.widget.LoginButton;
 

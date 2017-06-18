@@ -6,16 +6,25 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="yyl.rabbitcloud.home.MainActivity">
+    tools:context="yyl.rabbitcloud.main.MainActivity">
 
-    <EditText
-        android:layout_centerInParent="true"
-        android:background="@drawable/input_layout"
-        android:layout_margin="@dimen/dip_twenty"
-        android:hint="请输入内容"
+    <FrameLayout
+        android:id="@+id/main_content"
+        android:layout_above="@+id/main_bottom_line"
         android:layout_width="match_parent"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:layout_height="@dimen/dip_forty"/>
+        android:layout_height="match_parent"/>
+
+    <me.majiajie.pagerbottomtabstrip.PageBottomTabLayout
+        android:id="@+id/main_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_fifty_six"
+        android:layout_alignParentBottom="true"/>
+
+    <View
+        android:id="@+id/main_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_above="@id/main_bottom_view"
+        android:layout_height="@dimen/dip_zero_point_five"
+        android:background="@color/md_light_dividers" />
 
 </RelativeLayout>

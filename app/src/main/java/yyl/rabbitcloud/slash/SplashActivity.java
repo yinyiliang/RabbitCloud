@@ -27,7 +27,7 @@ import yyl.rabbitcloud.base.BaseActivity;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.di.component.DaggerSplashComponent;
-import yyl.rabbitcloud.mvp.activity.LoginActivity;
+import yyl.rabbitcloud.login.LoginActivity;
 import yyl.rabbitcloud.util.LoaderImage;
 
 /**

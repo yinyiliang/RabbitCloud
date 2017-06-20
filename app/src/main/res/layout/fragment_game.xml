@@ -2,67 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/white"
               android:orientation="vertical">
 
-    <RelativeLayout
+    <include
+        android:id="@+id/game_searchbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dip_fifty"
-        android:gravity="center_vertical"
-        android:paddingEnd="@dimen/dip_ten"
-        android:paddingStart="@dimen/dip_ten">
+        android:layout_height="wrap_content"
+        layout="@layout/search_layout"/>
 
-        <ImageButton
-            android:id="@+id/search_img_bt"
-            android:layout_width="@dimen/dip_twenty_five"
-            android:layout_height="@dimen/dip_twenty_five"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/arrow_left_grey"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/game_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/search_edit_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/game_recycler_view"
+            android:background="@color/md_grey_100"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dip_eight"
-            android:layout_marginEnd="@dimen/dip_six"
-            android:layout_marginStart="@dimen/dip_six"
-            android:layout_marginTop="@dimen/dip_eight"
-            android:layout_toEndOf="@id/search_img_bt"
-            android:layout_toStartOf="@+id/search_tv"
-            android:background="@drawable/round_six_grey200_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"/>
 
-            <ImageView
-                android:layout_marginStart="@dimen/dip_ten"
-                android:layout_width="@dimen/dip_twenty"
-                android:layout_height="@dimen/dip_twenty"
-                android:src="@drawable/ic_search_grey_500_24dp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/dip_four"
-                android:background="@null"
-                android:maxLines="1"
-                android:textCursorDrawable="@drawable/edittext_cursor"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/search_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="@string/search"
-            android:textColor="@color/accent_grey"
-            android:textSize="@dimen/sp_sixteen"/>
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dip_zero_point_five"
-        android:background="@color/md_light_dividers"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

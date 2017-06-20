@@ -45,6 +45,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void initToolBar() {
+
+    }
+
+    @Override
     protected void initUi() {
         mItemController = mNavigationView.custom()
                 .addItem(newItem(R.drawable.ic_home_grey_500_24dp,R.drawable.ic_home_grey_800_24dp,"首页"))

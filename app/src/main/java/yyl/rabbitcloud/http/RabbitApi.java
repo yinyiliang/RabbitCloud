@@ -6,7 +6,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import yyl.rabbitcloud.RabbitPublicValue;
+import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
+import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
 
 /**
  * Created by yyl on 2017/6/17.
@@ -36,6 +38,10 @@ public class RabbitApi extends ObjectLoader {
 
     public Observable<SplashScreenBean> getSplashData() {
         return observe(service.getSplashScreen());
+    }
+
+    public Observable<GameCategoryBean> getGameTypeData() {
+        return observe(service.getCategoryData());
     }
 
 }

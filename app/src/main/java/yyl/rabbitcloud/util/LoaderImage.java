@@ -27,6 +27,7 @@ public class LoaderImage {
     //普通加载
     public static void load(Context context, String url, ImageView view) {
         Glide.with(context).load(url)
+                .apply(getRequestOptions())
                 .into(view);
     }
 

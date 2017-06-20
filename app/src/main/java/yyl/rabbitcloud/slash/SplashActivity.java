@@ -26,7 +26,7 @@ import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.base.BaseActivity;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.di.component.AppComponent;
-import yyl.rabbitcloud.di.component.DaggerSplashComponent;
+import yyl.rabbitcloud.di.component.DaggerActivityComponent;
 import yyl.rabbitcloud.login.LoginActivity;
 import yyl.rabbitcloud.util.LoaderImage;
 
@@ -88,6 +88,11 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     }
 
     @Override
+    protected void initToolBar() {
+
+    }
+
+    @Override
     protected void initData() {
         Random r = new Random(SystemClock.elapsedRealtime());
         LoaderImage.loadSplash(this, SPLASH_IMG[r.nextInt(SPLASH_IMG.length)], splashImg);
@@ -103,7 +108,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerSplashComponent.builder()
+        DaggerActivityComponent.builder()
                 .appComponent(appComponent)
                 .build()
                 .inject(this);

@@ -9,7 +9,7 @@ import yyl.rabbitcloud.slash.SplashActivity;
  */
 
 @Component(dependencies = AppComponent.class)
-public interface SplashComponent {
+public interface ActivityComponent {
     //对SlpshActivity进行依赖注入 目标类
     SplashActivity inject(SplashActivity splashActivity);
 

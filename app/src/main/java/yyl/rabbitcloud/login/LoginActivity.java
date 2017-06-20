@@ -25,6 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import yyl.rabbitcloud.R;
+import yyl.rabbitcloud.base.BaseActivity;
+import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.main.MainActivity;
 import yyl.rabbitcloud.util.RenderScriptHelper;
 import yyl.rabbitcloud.widget.LoginButton;
@@ -35,7 +37,7 @@ import yyl.rabbitcloud.widget.LoginButton;
  * Created by yyl on 2017/3/20.
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.btn_login)
     LoginButton btn_login;
@@ -65,23 +67,38 @@ public class LoginActivity extends AppCompatActivity {
             R.drawable.meinv
     };
 
+    @Override
+    protected void initToolBar() {
+
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void requestLayout() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-        initData();
     }
 
-
-    private void initData() {
+    @Override
+    protected void initData() {
         Random r = new Random(SystemClock.elapsedRealtime());
         Bitmap myBitmap = BitmapFactory.decodeResource(getResources(),
                 SPLASH_ARRAY[r.nextInt(SPLASH_ARRAY.length)]);
         img_login_bg.setImageBitmap(RenderScriptHelper.rsBlur(this, myBitmap, 14));
+    }
+
+    @Override
+    protected void initUi() {
+
+    }
+
+    @Override
+    protected void setupActivityComponent(AppComponent appComponent) {
+
+    }
+
+    @Override
+    protected void initListener() {
 
     }
 

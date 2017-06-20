@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import butterknife.ButterKnife;
 import pub.devrel.easypermissions.EasyPermissions;
 import yyl.rabbitcloud.App;
+import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.di.component.AppComponent;
 
 /**
@@ -16,6 +19,8 @@ import yyl.rabbitcloud.di.component.AppComponent;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    protected Toolbar mToolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +28,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         requestLayout();
         ButterKnife.bind(this);
         setupActivityComponent(App.getAppInstance().getAppComponent());
+        mToolbar = ButterKnife.findById(this, R.id.common_toolbar);
+        if (mToolbar != null) {
+            initToolBar();
+            setSupportActionBar(mToolbar);
+            mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_grey_800_36dp);
+        }
         initUi();
         initData();
         initListener();
 
     }
+
+    protected abstract void initToolBar();
 
     protected abstract void requestLayout();
 

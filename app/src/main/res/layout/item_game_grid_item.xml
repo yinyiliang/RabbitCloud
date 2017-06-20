@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/item_game_grid_img"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dip_seventy"
+        android:adjustViewBounds="true"/>
+
+    <TextView
+        android:id="@+id/item_game_grid_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dip_six"
+        android:textColor="@color/accent_grey"
+        android:textSize="@dimen/sp_forteen"
+        tools:text="英雄联盟"/>
+
+</LinearLayout>

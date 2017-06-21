@@ -26,6 +26,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
+
     //黄油刀
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
@@ -50,4 +51,6 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     //底部导航栏
     compile 'me.majiajie:pager-bottom-tab-strip:2.1.0'
+    //轮播banner
+    compile 'com.jude:rollviewpager:1.4.6'
 }

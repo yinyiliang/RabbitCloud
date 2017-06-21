@@ -3,12 +3,10 @@ package yyl.rabbitcloud.http;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
-import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
 import yyl.rabbitcloud.bean.FindRoomInfoByIdBean;
-import yyl.rabbitcloud.bean.RecommendInfoBean;
-import yyl.rabbitcloud.bean.RoomBean;
 import yyl.rabbitcloud.bean.SearchRoomBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
+import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
 import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
 
 /**
@@ -22,48 +20,32 @@ public interface ServiceAPI {
      *     http://static.api.m.panda.tv/index.php?
      *     method=clientconf.firstscreen&__version=3.1.4.36223&__plat=android&__channel=guanwang
      */
-    @GET("index.php?method=clientconf.firstscreen&__version=3.1.4.36223&__plat=android&__channel=guanwang")
+    @GET("http://static.api.m.panda.tv/index.php?method=clientconf.firstscreen&__version=3.1.4.36223&__plat=android&__channel=guanwang")
     Observable<SplashScreenBean> getSplashScreen();
 
     //推荐界面
-    /*
-    http://static.api.m.panda.tv/android_hd/androidhdindex.json
-    包括 广告栏  和热门数据
-     */
-    @GET("android_hd/androidhdindex.json")
-    Observable<RecommendInfoBean> getRecommendData();
+
 
     //所有类别 返回其中10个频道  全部
-    /**
-     * pageno=1 返回10条、 pageno=2 返回另外10条
-     *
-     * http://static.api.m.panda.tv/android_hd/alllist_.json?pageno=1
-     */
-    @GET("android_hd/alllist_.json?")
-    Observable<RoomBean> getAllCategoriesData(@Query("pageno") int pageno);
 
-    //返回某个类别的10条数据
+
+    //返回某个类别的数据
     /**
-     * http://static.api.m.panda.tv/android_hd/catelist_.json?cate=yzdr&pageno=1
-     * 或者
-     * http://api.m.panda.tv/ajax_get_live_list_by_cate?
-     * cate=yzdr&pageno=1&pagenum=4&__version=3.1.4.36223&__plat=android_hd
      *
      * http://api.m.panda.tv/ajax_get_live_list_by_cate?
      * cate=lol&pageno=1&pagenum=20&sproom=1&banner=1&slider=1
-     * &__version=3.1.7.3811&__plat=android  //最新
      */
-    @GET("android_hd/catelist_.json?")
-    Observable<RoomBean> getRoomInfoByCate(@Query("cate") String cate, @Query("pageno") int pageno);
+    @GET("ajax_get_live_list_by_cate?sproom=1&banner=1&slider=1")
+    Observable<LiveRoomListBean> getRoomInfoByCate(@Query("cate") String cate,
+                                                   @Query("pageno") int pageno,
+                                                   @Query("pagenum") int pagenum);
 
     //返回游戏类型
     /**
-     * http://static.api.m.panda.tv/android_hd/cate.json //不给力
-     *
      * http://api.m.panda.tv/index.php?method=category.gamelist&__version=3.1.7.3811
      * &__plat=android&__channel=huawei
      */
-    @GET("http://api.m.panda.tv/index.php?method=category.gamelist&__version=3.1.7.3811&__plat=android&__channel=huawei")
+    @GET("index.php?method=category.gamelist&__version=3.1.7.3811&__plat=android&__channel=huawei")
     Observable<GameCategoryBean> getCategoryData();
 
     //根据房间号获取房间信息

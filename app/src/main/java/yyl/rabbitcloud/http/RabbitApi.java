@@ -6,6 +6,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import yyl.rabbitcloud.RabbitPublicValue;
+import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
 import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
@@ -42,6 +43,10 @@ public class RabbitApi extends ObjectLoader {
 
     public Observable<GameCategoryBean> getGameTypeData() {
         return observe(service.getCategoryData());
+    }
+
+    public Observable<LiveRoomListBean> getRoomInfoByCate(String cate, int pageno, int pagenum) {
+        return observe(service.getRoomInfoByCate(cate, pageno, pagenum));
     }
 
 }

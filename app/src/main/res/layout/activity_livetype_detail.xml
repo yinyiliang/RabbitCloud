@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@color/white"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <include layout="@layout/widget_toolbar"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:background="@color/white"
+    <com.jude.rollviewpager.RollPagerView
+        android:id="@+id/livetype_banner"
+        android:layout_marginStart="@dimen/dip_ten"
+        android:layout_marginEnd="@dimen/dip_ten"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="@dimen/dip_one_hundred_eighty"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/livetype_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
 
 </LinearLayout>

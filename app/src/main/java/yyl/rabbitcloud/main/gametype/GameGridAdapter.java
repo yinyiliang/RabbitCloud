@@ -64,8 +64,6 @@ public class GameGridAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Logger.e(bean.toString());
-
         holder.mGameName.setText(bean.getCname());
         LoaderImage.load(mContext,bean.getImg(),holder.mGameImg);
 

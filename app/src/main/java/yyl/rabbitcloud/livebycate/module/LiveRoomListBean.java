@@ -1,64 +1,12 @@
-package yyl.rabbitcloud.bean;
+package yyl.rabbitcloud.livebycate.module;
 
 import java.util.List;
 
 /**
- * 所有类型的Bean类
- * Created by yyl on 2017/6/2.
+ * Created by yyl on 2017/6/20.
  */
 
-public class RoomBean {
-
-
-    /**
-     * errno : 0
-     * errmsg :
-     * data : {"items":[{"id":"821175","ver":"1","createtime":"2017-02-28 13:34:38",
-     * "updatetime":"2017-06-02 10:40:13","name":"不忘初心","hostid":"75321686","person_num":"8696",
-     * "announcement":"","classification":{"cname":"熊猫星秀","ename":"yzdr"},
-     * "pictures":{"img":"http://i6.pdim.gs/90/eff430350b730d6ea948007c53fd5faa/w338/h190.jpg"},
-     * "status":"2","start_time":"1496367908","end_time":"1496305385","duration":"3486",
-     * "schedule":"0","remind_switch":"2","remind_content":"","level":"1","stream_status":"1",
-     * "classify_switch":"1","reliable":"2","banned_reason":"","unlock_time":"0",
-     * "speak_interval":"2","person_num_thres":"","reduce_ratio":"","person_switch":"",
-     * "watermark_switch":"2","watermark_loc":"1","account_status":"1","person_src":"1",
-     * "display_type":"1","tag":"","tag_switch":"1","tag_color":"1","rcmd_ratio":"",
-     * "show_pos":"1","rtype_usable":"1","room_type":"1","rtype_value":"","style_type":"1",
-     * "cdn_rate":"0","cover_switch":"0","room_key":"1d0bf2e02a6000a24e7c0b463395a010",
-     * "fans":"0","userinfo":{"nickName":"super吴大仙","rid":75321686,"avatar":"http://i5.pdim
-     * .gs/e692d188e846425684491441cca51112.jpg","userName":""}},{"id":"761620","ver":"1",
-     * "createtime":"2017-02-12 23:45:29","updatetime":"2017-06-02 10:40:26","name":"勤快的涵宝宝上线啦
-     * ~","hostid":"72809970","person_num":"104","announcement":"",
-     * "classification":{"cname":"熊猫星秀","ename":"yzdr"},"pictures":{"img":"http://i6.pdim
-     * .gs/90/1189be9857fdfa7b4acd0927bc5898ff/w338/h190.jpg"},"status":"2",
-     * "start_time":"1496365399","end_time":"1496328469","duration":"5995","schedule":"0",
-     * "remind_switch":"2","remind_content":"","level":"1","stream_status":"1",
-     * "classify_switch":"1","reliable":"1","banned_reason":"","unlock_time":"0",
-     * "speak_interval":"2","person_num_thres":"","reduce_ratio":"","person_switch":"",
-     * "watermark_switch":"2","watermark_loc":"1","account_status":"1","person_src":"2",
-     * "display_type":"1","tag":"","tag_switch":"1","tag_color":"1","rcmd_ratio":"",
-     * "show_pos":"1","rtype_usable":"1","room_type":"1","rtype_value":"","style_type":"1",
-     * "cdn_rate":"0","cover_switch":"0","room_key":"cfeef2f69e8f7cc49e6eec9627d7f709",
-     * "fans":"0","userinfo":{"nickName":"酱麻麻","rid":72809970,"avatar":"http://i6.pdim
-     * .gs/8ab9a2bf44388d737ae8a8ce4abfbf1e.jpeg","userName":""}},{"id":"435911",
-     * "name":"进棚录音，让破音更猛烈些吧。","hostid":"31250832","person_num":"30992",
-     * "classification":{"cname":"熊猫星秀","ename":"yzdr"},"pictures":{"img":"http://i9.pdim
-     * .gs/90/3116806fb0ae6d9ab5f2f7b441436125/w338/h190.jpg"},"display_type":"1","tag":"",
-     * "tag_switch":"1","tag_color":"1","style_type":"1","reliable":"1","status":"2",
-     * "stream_status":"1","createtime":"2016-06-20 03:04:20","start_time":"1496371380",
-     * "schedule":"0","level":"9","room_key":"","fans":"0","userinfo":{"nickName":"小丸子UuQ",
-     * "rid":31250832,"avatar":"http://i8.pdim.gs/1d00091927eb43ed853b3f93292036e5.jpg",
-     * "userName":""},"announcement":"","duration":"14"},{"id":"491124","name":"快进来，看我发现了什么！",
-     * "hostid":"39039264","person_num":"15072","classification":{"cname":"熊猫星秀","ename":"yzdr"},
-     * "pictures":{"img":"http://i8.pdim.gs/90/7c9e1e15f002da936cbd1bb295524078/w338/h190.jpg"},
-     * "display_type":"1","tag":"","tag_switch":"1","tag_color":"1","style_type":"1",
-     * "reliable":"1","status":"2","stream_status":"1","createtime":"2016-08-09 17:57:02",
-     * "start_time":"1496366906","schedule":"0","level":"9","room_key":"","fans":"0",
-     * "userinfo":{"nickName":"暴走漫画","rid":39039264,"avatar":"http://i9.pdim
-     * .gs/f91ee31ecb93550cadc8d0bfd87eec18.jpeg","userName":""},"announcement":"",
-     * "duration":"4488"}],"total":"97","type":{"ename":"yzdr","cname":"熊猫星秀"}}
-     * authseq :
-     */
+public class LiveRoomListBean {
 
     private int errno;
     private String errmsg;
@@ -98,59 +46,11 @@ public class RoomBean {
     }
 
     public static class DataBean {
-        /**
-         * items : [{"id":"821175","ver":"1","createtime":"2017-02-28 13:34:38",
-         * "updatetime":"2017-06-02 10:40:13","name":"不忘初心","hostid":"75321686",
-         * "person_num":"8696","announcement":"","classification":{"cname":"熊猫星秀",
-         * "ename":"yzdr"},"pictures":{"img":"http://i6.pdim
-         * .gs/90/eff430350b730d6ea948007c53fd5faa/w338/h190.jpg"},"status":"2",
-         * "start_time":"1496367908","end_time":"1496305385","duration":"3486","schedule":"0",
-         * "remind_switch":"2","remind_content":"","level":"1","stream_status":"1",
-         * "classify_switch":"1","reliable":"2","banned_reason":"","unlock_time":"0",
-         * "speak_interval":"2","person_num_thres":"","reduce_ratio":"","person_switch":"",
-         * "watermark_switch":"2","watermark_loc":"1","account_status":"1","person_src":"1",
-         * "display_type":"1","tag":"","tag_switch":"1","tag_color":"1","rcmd_ratio":"",
-         * "show_pos":"1","rtype_usable":"1","room_type":"1","rtype_value":"","style_type":"1",
-         * "cdn_rate":"0","cover_switch":"0","room_key":"1d0bf2e02a6000a24e7c0b463395a010",
-         * "fans":"0","userinfo":{"nickName":"super吴大仙","rid":75321686,"avatar":"http://i5.pdim
-         * .gs/e692d188e846425684491441cca51112.jpg","userName":""}},{"id":"761620","ver":"1",
-         * "createtime":"2017-02-12 23:45:29","updatetime":"2017-06-02 10:40:26",
-         * "name":"勤快的涵宝宝上线啦  ~","hostid":"72809970","person_num":"104","announcement":"",
-         * "classification":{"cname":"熊猫星秀","ename":"yzdr"},"pictures":{"img":"http://i6.pdim
-         * .gs/90/1189be9857fdfa7b4acd0927bc5898ff/w338/h190.jpg"},"status":"2",
-         * "start_time":"1496365399","end_time":"1496328469","duration":"5995","schedule":"0",
-         * "remind_switch":"2","remind_content":"","level":"1","stream_status":"1",
-         * "classify_switch":"1","reliable":"1","banned_reason":"","unlock_time":"0",
-         * "speak_interval":"2","person_num_thres":"","reduce_ratio":"","person_switch":"",
-         * "watermark_switch":"2","watermark_loc":"1","account_status":"1","person_src":"2",
-         * "display_type":"1","tag":"","tag_switch":"1","tag_color":"1","rcmd_ratio":"",
-         * "show_pos":"1","rtype_usable":"1","room_type":"1","rtype_value":"","style_type":"1",
-         * "cdn_rate":"0","cover_switch":"0","room_key":"cfeef2f69e8f7cc49e6eec9627d7f709",
-         * "fans":"0","userinfo":{"nickName":"酱麻麻","rid":72809970,"avatar":"http://i6.pdim
-         * .gs/8ab9a2bf44388d737ae8a8ce4abfbf1e.jpeg","userName":""}},{"id":"435911",
-         * "name":"进棚录音，让破音更猛烈些吧。","hostid":"31250832","person_num":"30992",
-         * "classification":{"cname":"熊猫星秀","ename":"yzdr"},"pictures":{"img":"http://i9.pdim
-         * .gs/90/3116806fb0ae6d9ab5f2f7b441436125/w338/h190.jpg"},"display_type":"1","tag":"",
-         * "tag_switch":"1","tag_color":"1","style_type":"1","reliable":"1","status":"2",
-         * "stream_status":"1","createtime":"2016-06-20 03:04:20","start_time":"1496371380",
-         * "schedule":"0","level":"9","room_key":"","fans":"0","userinfo":{"nickName":"小丸子UuQ",
-         * "rid":31250832,"avatar":"http://i8.pdim.gs/1d00091927eb43ed853b3f93292036e5.jpg",
-         * "userName":""},"announcement":"","duration":"14"},{"id":"491124",
-         * "name":"快进来，看我发现了什么！","hostid":"39039264","person_num":"15072",
-         * "classification":{"cname":"熊猫星秀","ename":"yzdr"},"pictures":{"img":"http://i8.pdim
-         * .gs/90/7c9e1e15f002da936cbd1bb295524078/w338/h190.jpg"},"display_type":"1","tag":"",
-         * "tag_switch":"1","tag_color":"1","style_type":"1","reliable":"1","status":"2",
-         * "stream_status":"1","createtime":"2016-08-09 17:57:02","start_time":"1496366906",
-         * "schedule":"0","level":"9","room_key":"","fans":"0","userinfo":{"nickName":"暴走漫画",
-         * "rid":39039264,"avatar":"http://i9.pdim.gs/f91ee31ecb93550cadc8d0bfd87eec18.jpeg",
-         * "userName":""},"announcement":"","duration":"4488"}]
-         * total : 97
-         * type : {"ename":"yzdr","cname":"熊猫星秀"}
-         */
 
         private String total;
         private TypeBean type;
         private List<ItemsBean> items;
+        private List<BannersBean> banners;
 
         public String getTotal() {
             return total;
@@ -176,10 +76,18 @@ public class RoomBean {
             this.items = items;
         }
 
+        public List<BannersBean> getBanners() {
+            return banners;
+        }
+
+        public void setBanners(List<BannersBean> banners) {
+            this.banners = banners;
+        }
+
         public static class TypeBean {
             /**
-             * ename : yzdr
-             * cname : 熊猫星秀
+             * ename : lol
+             * cname : 英雄联盟
              */
 
             private String ename;
@@ -204,21 +112,21 @@ public class RoomBean {
 
         public static class ItemsBean {
             /**
-             * id : 821175
+             * id : 1026681
              * ver : 1
-             * createtime : 2017-02-28 13:34:38
-             * updatetime : 2017-06-02 10:40:13
-             * name : 不忘初心
-             * hostid : 75321686
-             * person_num : 8696
+             * createtime : 2017-05-09 16:03:18
+             * updatetime : 2017-06-20 19:55:18
+             * name : SS_ZZR 年迈老酒桶的ER闪
+             * hostid : 3355352
+             * person_num : 6924
              * announcement :
-             * classification : {"cname":"熊猫星秀","ename":"yzdr"}
-             * pictures : {"img":"http://i6.pdim
-             * .gs/90/eff430350b730d6ea948007c53fd5faa/w338/h190.jpg"}
+             * classification : {"cname":"英雄联盟","ename":"lol"}
+             * pictures : {"img":"http://i8.pdim
+             * .gs/90/fceed73140b67b7d894cef968eb6cfea/w338/h190.jpg"}
              * status : 2
-             * start_time : 1496367908
-             * end_time : 1496305385
-             * duration : 3486
+             * start_time : 1497957495
+             * end_time : 1497957491
+             * duration : 2477
              * schedule : 0
              * remind_switch : 2
              * remind_content :
@@ -248,10 +156,11 @@ public class RoomBean {
              * style_type : 1
              * cdn_rate : 0
              * cover_switch : 0
-             * room_key : 1d0bf2e02a6000a24e7c0b463395a010
+             * label : []
+             * room_key : 34036f3527e6af13b2aecb3cf82c53d8
              * fans : 0
-             * userinfo : {"nickName":"super吴大仙","rid":75321686,"avatar":"http://i5.pdim
-             * .gs/e692d188e846425684491441cca51112.jpg","userName":""}
+             * userinfo : {"nickName":"Snake_Zzr","rid":"3355352","avatar":"http://i9.pdim
+             * .gs/57c7cbc5caa37519dda5642e9c220fe3.png","userName":""}
              */
 
             private String id;
@@ -300,6 +209,7 @@ public class RoomBean {
             private String room_key;
             private String fans;
             private UserinfoBean userinfo;
+            private List<?> label;
 
             public String getId() {
                 return id;
@@ -669,10 +579,18 @@ public class RoomBean {
                 this.userinfo = userinfo;
             }
 
+            public List<?> getLabel() {
+                return label;
+            }
+
+            public void setLabel(List<?> label) {
+                this.label = label;
+            }
+
             public static class ClassificationBean {
                 /**
-                 * cname : 熊猫星秀
-                 * ename : yzdr
+                 * cname : 英雄联盟
+                 * ename : lol
                  */
 
                 private String cname;
@@ -697,7 +615,7 @@ public class RoomBean {
 
             public static class PicturesBean {
                 /**
-                 * img : http://i6.pdim.gs/90/eff430350b730d6ea948007c53fd5faa/w338/h190.jpg
+                 * img : http://i8.pdim.gs/90/fceed73140b67b7d894cef968eb6cfea/w338/h190.jpg
                  */
 
                 private String img;
@@ -713,14 +631,14 @@ public class RoomBean {
 
             public static class UserinfoBean {
                 /**
-                 * nickName : super吴大仙
-                 * rid : 75321686
-                 * avatar : http://i5.pdim.gs/e692d188e846425684491441cca51112.jpg
+                 * nickName : Snake_Zzr
+                 * rid : 3355352
+                 * avatar : http://i9.pdim.gs/57c7cbc5caa37519dda5642e9c220fe3.png
                  * userName :
                  */
 
                 private String nickName;
-                private int rid;
+                private String rid;
                 private String avatar;
                 private String userName;
 
@@ -732,11 +650,11 @@ public class RoomBean {
                     this.nickName = nickName;
                 }
 
-                public int getRid() {
+                public String getRid() {
                     return rid;
                 }
 
-                public void setRid(int rid) {
+                public void setRid(String rid) {
                     this.rid = rid;
                 }
 
@@ -756,6 +674,169 @@ public class RoomBean {
                     this.userName = userName;
                 }
             }
+
+            @Override
+            public String toString() {
+                return "ItemsBean{" +
+                        "id='" + id + '\'' +
+                        ", ver='" + ver + '\'' +
+                        ", createtime='" + createtime + '\'' +
+                        ", updatetime='" + updatetime + '\'' +
+                        ", name='" + name + '\'' +
+                        ", hostid='" + hostid + '\'' +
+                        ", person_num='" + person_num + '\'' +
+                        ", announcement='" + announcement + '\'' +
+                        ", classification=" + classification +
+                        ", pictures=" + pictures +
+                        ", status='" + status + '\'' +
+                        ", start_time='" + start_time + '\'' +
+                        ", end_time='" + end_time + '\'' +
+                        ", duration='" + duration + '\'' +
+                        ", schedule='" + schedule + '\'' +
+                        ", remind_switch='" + remind_switch + '\'' +
+                        ", remind_content='" + remind_content + '\'' +
+                        ", level='" + level + '\'' +
+                        ", stream_status='" + stream_status + '\'' +
+                        ", classify_switch='" + classify_switch + '\'' +
+                        ", reliable='" + reliable + '\'' +
+                        ", banned_reason='" + banned_reason + '\'' +
+                        ", unlock_time='" + unlock_time + '\'' +
+                        ", speak_interval='" + speak_interval + '\'' +
+                        ", person_num_thres='" + person_num_thres + '\'' +
+                        ", reduce_ratio='" + reduce_ratio + '\'' +
+                        ", person_switch='" + person_switch + '\'' +
+                        ", watermark_switch='" + watermark_switch + '\'' +
+                        ", watermark_loc='" + watermark_loc + '\'' +
+                        ", account_status='" + account_status + '\'' +
+                        ", person_src='" + person_src + '\'' +
+                        ", display_type='" + display_type + '\'' +
+                        ", tag='" + tag + '\'' +
+                        ", tag_switch='" + tag_switch + '\'' +
+                        ", tag_color='" + tag_color + '\'' +
+                        ", rcmd_ratio='" + rcmd_ratio + '\'' +
+                        ", show_pos='" + show_pos + '\'' +
+                        ", rtype_usable='" + rtype_usable + '\'' +
+                        ", room_type='" + room_type + '\'' +
+                        ", rtype_value='" + rtype_value + '\'' +
+                        ", style_type='" + style_type + '\'' +
+                        ", cdn_rate='" + cdn_rate + '\'' +
+                        ", cover_switch='" + cover_switch + '\'' +
+                        ", room_key='" + room_key + '\'' +
+                        ", fans='" + fans + '\'' +
+                        ", userinfo=" + userinfo +
+                        ", label=" + label +
+                        '}';
+            }
+        }
+
+        public static class BannersBean {
+            /**
+             * roomid : 257225
+             * name : 论大逃杀的100种玩法
+             * display_type : 1
+             * title : 论大逃杀的100种玩法
+             * bigimg : http://i5.pdim.gs/5fc4c82e088be227340f75650d30f140.jpeg
+             * smallimg :
+             * style_type : 1
+             * type : 0
+             */
+
+            private String roomid;
+            private String name;
+            private String display_type;
+            private String title;
+            private String bigimg;
+            private String smallimg;
+            private String style_type;
+            private String type;
+
+            public String getRoomid() {
+                return roomid;
+            }
+
+            public void setRoomid(String roomid) {
+                this.roomid = roomid;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getDisplay_type() {
+                return display_type;
+            }
+
+            public void setDisplay_type(String display_type) {
+                this.display_type = display_type;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getBigimg() {
+                return bigimg;
+            }
+
+            public void setBigimg(String bigimg) {
+                this.bigimg = bigimg;
+            }
+
+            public String getSmallimg() {
+                return smallimg;
+            }
+
+            public void setSmallimg(String smallimg) {
+                this.smallimg = smallimg;
+            }
+
+            public String getStyle_type() {
+                return style_type;
+            }
+
+            public void setStyle_type(String style_type) {
+                this.style_type = style_type;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            @Override
+            public String toString() {
+                return "BannersBean{" +
+                        "roomid='" + roomid + '\'' +
+                        ", name='" + name + '\'' +
+                        ", display_type='" + display_type + '\'' +
+                        ", title='" + title + '\'' +
+                        ", bigimg='" + bigimg + '\'' +
+                        ", smallimg='" + smallimg + '\'' +
+                        ", style_type='" + style_type + '\'' +
+                        ", type='" + type + '\'' +
+                        '}';
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "total='" + total + '\'' +
+                    ", type=" + type +
+                    ", items=" + items +
+                    ", banners=" + banners +
+                    '}';
         }
     }
 }

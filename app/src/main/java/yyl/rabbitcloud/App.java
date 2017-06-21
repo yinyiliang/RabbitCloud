@@ -2,6 +2,8 @@ package yyl.rabbitcloud;
 
 import android.app.Application;
 
+import com.bumptech.glide.request.target.ViewTarget;
+
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.di.component.DaggerAppComponent;
 import yyl.rabbitcloud.di.module.AppModule;
@@ -21,6 +23,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+        //为防止出现
+        // "You must not call setTag() on a view Glide is targeting" on non-root ImageView
+        //这个问题导致的软件崩溃
+        ViewTarget.setTagId(R.id.glide_tag);
+
 
         initComponent();
     }

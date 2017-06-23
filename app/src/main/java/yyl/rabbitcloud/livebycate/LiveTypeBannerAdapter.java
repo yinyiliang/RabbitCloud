@@ -57,7 +57,7 @@ public class LiveTypeBannerAdapter extends LoopPagerAdapter {
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        LoaderImage.load(mContext, bannersBean.getBigimg(), view);
+        LoaderImage.loadBannerImg(mContext, bannersBean.getBigimg(), view);
         return view;
     }
 

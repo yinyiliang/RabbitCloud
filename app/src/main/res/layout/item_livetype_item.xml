@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/item_lt_content"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <yyl.rabbitcloud.widget.RoundRectImageView
+        android:id="@+id/item_lt_item_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_one_hundred"
+        android:scaleType="centerCrop"
+        tools:background="@color/md_grey_300"/>
+
+    <TextView
+        android:id="@+id/item_lt_item_roomname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dip_six"
+        android:layout_marginTop="@dimen/dip_six"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/md_light_primary_text"
+        android:textSize="@dimen/sp_forteen"
+        tools:text="只要你愿意，人人都是王者"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/item_lt_item_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_toStartOf="@+id/item_lt_item_rn"
+            android:textColor="@color/accent_grey"
+            android:textSize="@dimen/sp_twelve"
+            tools:text="啊毛时代"/>
+
+        <TextView
+            android:id="@+id/item_lt_item_rn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/dip_four"
+            android:drawableStart="@drawable/ic_eye"
+            android:textColor="@color/accent_grey"
+            android:textSize="@dimen/sp_twelve"
+            tools:text="2000"/>
+    </RelativeLayout>
+</LinearLayout>

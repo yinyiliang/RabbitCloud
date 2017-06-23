@@ -12,12 +12,14 @@ import android.view.View;
 public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount; //一行多少个
-    private int spacing; //间距
+    private int vSpacing; //间距
+    private int hSpacing;
     private boolean includeEdge; //是否包括外边距
 
-    public SpaceItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+    public SpaceItemDecoration(int spanCount, int vSpacing, int hSpacing,  boolean includeEdge) {
         this.spanCount = spanCount;
-        this.spacing = spacing;
+        this.vSpacing = vSpacing;
+        this.hSpacing = hSpacing;
         this.includeEdge = includeEdge;
     }
 
@@ -27,18 +29,18 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         int column = position % spanCount; // item column
 
         if (includeEdge) {
-            outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-            outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+            outRect.left = hSpacing - column * hSpacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+            outRect.right = (column + 1) * hSpacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
 
             if (position < spanCount) { // top edge
-                outRect.top = spacing;
+                outRect.top = vSpacing;
             }
-            outRect.bottom = spacing; // item bottom
+            outRect.bottom = vSpacing; // item bottom
         } else {
-            outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-            outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+            outRect.left = column * hSpacing / spanCount; // column * ((1f / spanCount) * spacing)
+            outRect.right = hSpacing - (column + 1) * hSpacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
             if (position >= spanCount) {
-                outRect.top = spacing; // item top
+                outRect.top = vSpacing; // item top
             }
         }
     }

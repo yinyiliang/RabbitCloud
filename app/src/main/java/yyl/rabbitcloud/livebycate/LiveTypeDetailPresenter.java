@@ -39,20 +39,23 @@ public class LiveTypeDetailPresenter extends RxPresenter<LiveTypeDetailContract.
                 .subscribe(new Subscriber<LiveRoomListBean.DataBean>() {
                     @Override
                     public void onCompleted() {
-
+                        mView.complete();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Logger.d(e.toString());
                         mView.showError();
                     }
 
                     @Override
                     public void onNext(LiveRoomListBean.DataBean dataBean) {
                         if (dataBean != null && mView != null) {
-                            List<LiveRoomListBean.DataBean.BannersBean> bannersData =
-                                    dataBean.getBanners();
-                            mView.showLiveTypeBannerData(bannersData);
+                            if (dataBean.getBanners() != null) {
+                                List<LiveRoomListBean.DataBean.BannersBean> bannersData =
+                                        dataBean.getBanners();
+                                mView.showLiveTypeBannerData(bannersData);
+                            }
 
                             List<LiveRoomListBean.DataBean.ItemsBean> itemsData =
                                     dataBean.getItems();

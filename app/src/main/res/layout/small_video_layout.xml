@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_video_content"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    android:background="@color/accent_black">
+
+    <com.pili.pldroid.player.widget.PLVideoTextureView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_room_live_control"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_liveroom_back"
+            android:layout_width="@dimen/dip_forty"
+            android:layout_height="@dimen/dip_forty"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_left_white_24dp"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_room_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dip_fifteen"
+            android:layout_marginEnd="@dimen/dip_sixty"
+            android:layout_marginStart="@dimen/dip_twenty">
+
+            <TextView
+                android:id="@+id/tv_room_name"
+                tools:text="BBQ，就差你了"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dip_four"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_fifteen"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_room_num"
+                tools:text="房间号：762830"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_room_name"
+                android:textColor="@color/md_grey_100"
+                android:textSize="@dimen/sp_ten"/>
+
+            <TextView
+                android:id="@+id/tv_room_person_num"
+                tools:text="人气：1.2万"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_room_name"
+                android:layout_marginEnd="@dimen/dip_fifteen"
+                android:layout_marginStart="@dimen/dip_fifteen"
+                android:layout_toEndOf="@id/tv_room_num"
+                android:textColor="@color/md_grey_100"
+                android:textSize="@dimen/sp_ten"/>
+
+            <TextView
+                android:id="@+id/tv_room_live_type"
+                tools:text="类别：美食"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_room_name"
+                android:layout_marginEnd="@dimen/dip_fifteen"
+                android:layout_toEndOf="@id/tv_room_person_num"
+                android:textColor="@color/md_grey_100"
+                android:textSize="@dimen/sp_ten"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/img_fullscreen"
+            android:layout_width="@dimen/dip_forty"
+            android:layout_height="@dimen/dip_forty"
+            android:layout_margin="@dimen/dip_six"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_fullscreen_white_24dp"/>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_live_room"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</FrameLayout>

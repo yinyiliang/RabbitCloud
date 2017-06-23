@@ -65,7 +65,7 @@ public class GameGridAdapter extends BaseAdapter {
         }
 
         holder.mGameName.setText(bean.getCname());
-        LoaderImage.load(mContext,bean.getImg(),holder.mGameImg);
+        LoaderImage.loadGridImg(mContext,bean.getImg(),holder.mGameImg);
 
         return convertView;
     }

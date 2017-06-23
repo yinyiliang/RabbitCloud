@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -20,6 +21,7 @@ import yyl.rabbitcloud.di.component.AppComponent;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected Toolbar mToolbar;
+    private TextView mTitleView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,15 +31,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setupActivityComponent(App.getAppInstance().getAppComponent());
         mToolbar = ButterKnife.findById(this, R.id.common_toolbar);
+        mTitleView = ButterKnife.findById(this, R.id.toolbar_title);
         if (mToolbar != null) {
             initToolBar();
             setSupportActionBar(mToolbar);
             mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_grey_800_36dp);
+            //noinspection ConstantConditions
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         initUi();
         initData();
         initListener();
 
+    }
+
+    /**
+     * 设置标题
+     * @param title
+     */
+    protected void setToolbarTitle(String title) {
+        mTitleView.setText(title);
     }
 
     protected abstract void initToolBar();

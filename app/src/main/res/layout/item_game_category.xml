@@ -40,6 +40,7 @@
         android:id="@+id/item_game_gridview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:listSelector="@android:color/transparent"
         android:gravity="center_horizontal"
         android:padding="@dimen/dip_ten"
         android:numColumns="4"

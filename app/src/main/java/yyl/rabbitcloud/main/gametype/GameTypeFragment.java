@@ -66,7 +66,7 @@ public class GameTypeFragment extends BaseFragment implements GameContract.View 
     @Override
     protected void initData() {
         mGameTypeList = new ArrayList<>();
-        mTypeAdapter = new GameTypeAdapter(mGameTypeList,mMainActivity);
+        mTypeAdapter = new GameTypeAdapter(mMainActivity);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mMainActivity));
         mRecyclerView.setAdapter(mTypeAdapter);
 
@@ -108,7 +108,7 @@ public class GameTypeFragment extends BaseFragment implements GameContract.View 
         mRefreshLayout.setRefreshing(false);
         mGameTypeList.clear();
         mGameTypeList.addAll(dataBeans);
-        mTypeAdapter.notifyDataSetChanged();
+        mTypeAdapter.setGameTypeList(dataBeans);
     }
 
     @Override

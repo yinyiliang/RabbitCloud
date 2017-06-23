@@ -3,6 +3,7 @@ package yyl.rabbitcloud.di.component;
 import dagger.Component;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.livebycate.LiveTypeDetailActivity;
+import yyl.rabbitcloud.liveroom.LiveRoomActivity;
 import yyl.rabbitcloud.slash.SplashActivity;
 
 /**
@@ -16,5 +17,8 @@ public interface ActivityComponent {
 
     //对LiveTypeDetailActivity进行依赖注入
     LiveTypeDetailActivity inject(LiveTypeDetailActivity typeDetailActivity);
+
+    //对LiveRoomActivity进行依赖注入
+    LiveRoomActivity inject(LiveRoomActivity liveRoomActivity);
 
 }

@@ -19,21 +19,31 @@ import yyl.rabbitcloud.R;
 
 public class LoaderImage {
 
-    private static RequestOptions getRequestOptions() {
+    private static RequestOptions getLiveRequestOptions() {
         return new RequestOptions()
+                .placeholder(R.drawable.home_list_item_bg)
+                .centerInside()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
     }
 
-    //普通加载
-    public static void load(Context context, String url, ImageView view) {
+    //加载轮播图片
+    public static void loadBannerImg(Context context, String url, ImageView view) {
         Glide.with(context).load(url)
-                .apply(getRequestOptions())
+                .apply(getLiveRequestOptions())
                 .into(view);
     }
 
-    public static void loadGuide(Context context, String url, ImageView view) {
+    public static void loadGridImg(Context context, String url, ImageView view) {
         Glide.with(context).load(url)
-                .thumbnail(0.1f)
+                .into(view);
+    }
+
+    public static void loadLiveItemImg(Context context, String url, ImageView view) {
+        Glide.with(context).load(url)
+                .apply(new RequestOptions()
+                        .centerCrop()
+                        .placeholder(R.drawable.nodata_img_panda)
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                 .into(view);
     }
 
@@ -48,7 +58,10 @@ public class LoaderImage {
 
     public static void loadSplash(Context context, int id, ImageView view) {
         String resource = "android.resource://" + context.getPackageName() + "/drawable/" + id;
-        Glide.with(context).load(id).apply(getRequestOptions()).into(view);
+        Glide.with(context)
+                .load(id)
+                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                .into(view);
     }
 
     //图片居中显示加载
@@ -58,14 +71,15 @@ public class LoaderImage {
     }
 
     //图片居中显示加载 自定义加载失败图片
-    public static void loadCenterCustomErro(Context context, String url,int img, ImageView view) {
+    public static void loadCenterCustomErro(Context context, String url, int img, ImageView view) {
         Glide.with(context).load(url)
                 .into(view);
     }
 
     //加载显示为圆形或者圆角图片 头像
-    public static void loadRoundRect(Context context, String url,
-                                     BitmapTransformation transformation, ImageView view) {
+    public static void loadRoundRect(
+            Context context, String url,
+            BitmapTransformation transformation, ImageView view) {
         Glide.with(context).load(url)
                 .into(view);
     }

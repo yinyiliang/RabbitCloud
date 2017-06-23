@@ -7,6 +7,7 @@ import yyl.rabbitcloud.bean.FindRoomInfoByIdBean;
 import yyl.rabbitcloud.bean.SearchRoomBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.liveroom.LiveRoomBean;
 import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
 
 /**
@@ -62,6 +63,12 @@ public interface ServiceAPI {
      */
     @GET("http://api.m.panda.tv/ajax_search?")
     Observable<SearchRoomBean> searchRoomById(@Query("roomid") String roomid);
+
+    //根据房间号返回直播房间基本信息
+    //http://api.m.panda.tv/ajax_get_liveroom_baseinfo?slaveflag=1&type=json
+    // &roomid=1161093&__plat=android&__version=3.1.7.3811&__channel=huawei&pt_time=1498205115&pt_sign=2c449d06d8a83134f79109218e4b4a0d
+    @GET("ajax_get_liveroom_baseinfo?type=json&slaveflag=1__plat=android&__version=3.1.7.3811&__channel=huawei")
+    Observable<LiveRoomBean> getLiveRoomInfo(@Query("roomid") String roomid);
 
     //视频播放链接
     /**

@@ -31,10 +31,14 @@ public class GameTypeAdapter extends RecyclerView.Adapter<GameTypeAdapter.ViewHo
     private LayoutInflater mInflater;
     private OnGameTypeClickListener mListener;
 
-    public GameTypeAdapter(List<CategoryGameListBean> gameTypeList, Context context) {
+    public GameTypeAdapter(Context context) {
         this.mContext = context;
-        this.mGameTypeList = gameTypeList;
         mInflater = LayoutInflater.from(mContext);
+    }
+
+    public void setGameTypeList(List<CategoryGameListBean> gameTypeList) {
+        mGameTypeList = gameTypeList;
+        notifyDataSetChanged();
     }
 
     public interface OnGameTypeClickListener {

@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import yyl.rabbitcloud.RabbitPublicValue;
 import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.liveroom.LiveRoomBean;
 import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
@@ -37,16 +38,35 @@ public class RabbitApi extends ObjectLoader {
         return instance;
     }
 
+    /**
+     * 闪屏页
+     * @return
+     */
     public Observable<SplashScreenBean> getSplashData() {
         return observe(service.getSplashScreen());
     }
 
+    /**
+     * 游戏类型
+     * @return
+     */
     public Observable<GameCategoryBean> getGameTypeData() {
         return observe(service.getCategoryData());
     }
 
+    /**
+     * 根据游戏类型获取数据
+     * @return
+     */
     public Observable<LiveRoomListBean> getRoomInfoByCate(String cate, int pageno, int pagenum) {
         return observe(service.getRoomInfoByCate(cate, pageno, pagenum));
+    }
+
+    /**
+     * 根据房间号获取房间信息
+     */
+    public Observable<LiveRoomBean> getLiveRoomInfo(String roomId) {
+        return observe(service.getLiveRoomInfo(roomId));
     }
 
 }

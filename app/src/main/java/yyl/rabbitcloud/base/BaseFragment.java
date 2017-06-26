@@ -20,8 +20,6 @@ import yyl.rabbitcloud.main.MainActivity;
 
 public abstract class BaseFragment extends Fragment {
 
-    protected MainActivity mMainActivity;
-
     protected View mContainerView;
 
     public abstract
@@ -44,12 +42,6 @@ public abstract class BaseFragment extends Fragment {
         initUi();
         initData();
         initListener();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.mMainActivity = (MainActivity) context;
     }
 
     protected abstract void setupActivityComponent(AppComponent appComponent);

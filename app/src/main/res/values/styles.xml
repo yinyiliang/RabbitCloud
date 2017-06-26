@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/sp_sixteen</item>
+        <item name="android:textColor">@color/md_light_primary_text</item>
+    </style>
+
 </resources>

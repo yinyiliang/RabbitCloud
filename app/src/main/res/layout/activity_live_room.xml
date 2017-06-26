@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/white"
               android:orientation="vertical">
 
     <include layout="@layout/small_video_layout"/>
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/live_room_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabGravity="center"
+        app:tabTextAppearance="@style/CustomTabTextAppearance"
+        app:tabIndicatorColor="@color/accent_blue"
+        app:tabIndicatorHeight="@dimen/dip_four"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/accent_blue"
+        app:tabTextColor="@color/md_light_primary_text"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/live_room_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

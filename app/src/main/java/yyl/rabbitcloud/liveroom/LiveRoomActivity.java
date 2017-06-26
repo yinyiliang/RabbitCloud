@@ -5,8 +5,17 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -17,7 +26,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
+import com.pili.pldroid.player.widget.PLVideoView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,13 +41,16 @@ import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.base.BaseActivity;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.di.component.DaggerActivityComponent;
+import yyl.rabbitcloud.liveroom.fragment.AnchorInfoFragment;
+import yyl.rabbitcloud.liveroom.fragment.ChatListFragment;
 import yyl.rabbitcloud.util.ScreenHelper;
 
 /**
  * Created by yyl on 2017/6/23.
  */
 
-public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.View {
+public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.View,
+        Handler.Callback {
 
     @BindView(R.id.video_view)
     PLVideoTextureView mVideoPlayView;
@@ -63,11 +80,25 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
     @BindView(R.id.img_fullscreen)
     ImageView mFullScreen;
 
+    @BindView(R.id.live_room_tablayout)
+    TabLayout mTabLayout;
+    @BindView(R.id.live_room_viewpager)
+    ViewPager mViewPager;
+
     @Inject
     LiveRoomPresenter mRoomPresenter;
 
+    private static final int HANDLER_HIDE_CONTROL = 100;    //自动隐藏mControlLayout
+    private static final int HANDLER_HIDE_TIME = 5 * 1000; //mControlLayout的自动隐藏时间
+
+    private Handler mControlHandler;
+    private boolean isControlLayoutVisible = true;
+
     private String roomId;
-    private boolean roomInfoStatus = true; //默认为显示状态
+
+    private LiveRoomPagerAdapter mRoomPagerAdapter;
+    private String[] mTitles;
+    private List<Fragment> mFragmentList;
 
     @Override
     protected void initToolBar() {
@@ -76,8 +107,10 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     @Override
     protected void requestLayout() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_live_room);
     }
+
 
     public static void toLiveRoomActivity(BaseActivity activity, String roomId) {
         Intent intent = new Intent(activity, LiveRoomActivity.class);
@@ -88,6 +121,19 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
     @Override
     protected void initData() {
         roomId = getIntent().getStringExtra("roomId");
+
+        mTitles = new String[]{"聊天", "主播"};
+        mFragmentList = new ArrayList<>();
+        mRoomPagerAdapter = LiveRoomPagerAdapter.getInstance(getSupportFragmentManager(),
+                mFragmentList, mTitles);
+        mViewPager.setAdapter(mRoomPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        //初始化handler 刚进来mControlLayout是显示的，发送个延时消息 5秒后自动隐藏
+        mControlHandler = new Handler(this);
+        mControlHandler.removeMessages(HANDLER_HIDE_CONTROL);
+        mControlHandler.sendEmptyMessageDelayed(HANDLER_HIDE_CONTROL, HANDLER_HIDE_TIME);
+
         mRoomPresenter.attachView(this);
         mRoomPresenter.getRoomInfo(roomId);
 
@@ -95,7 +141,9 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     @Override
     protected void initUi() {
+        updateVideoLayoutParams();
         mVideoPlayView.setBufferingIndicator(mProgressBar);
+        mVideoPlayView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_ORIGIN);
     }
 
     @Override
@@ -111,7 +159,8 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     }
 
-    @OnClick({R.id.img_liveroom_back,R.id.rl_room_info,R.id.img_fullscreen,R.id.fl_video_content})
+    @OnClick({R.id.img_liveroom_back, R.id.rl_room_info, R.id.img_fullscreen, R.id
+            .fl_video_content})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_liveroom_back:
@@ -124,16 +173,22 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
                 break;
             case R.id.img_fullscreen:
                 //全屏控制 横屏
-                setFullScreen();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                //点击后重新倒计时
+                mControlHandler.removeMessages(HANDLER_HIDE_CONTROL);
+                mControlHandler.sendEmptyMessageDelayed(HANDLER_HIDE_CONTROL, HANDLER_HIDE_TIME);
                 break;
             case R.id.fl_video_content:
                 //点击播放器
-                if (roomInfoStatus) {
-                    mControlLayout.setVisibility(View.GONE);
-                    roomInfoStatus = false;
-                } else {
+                if (isControlLayoutVisible) { //显示状态
+                    mControlHandler.removeMessages(HANDLER_HIDE_CONTROL);
+                    mControlHandler.sendEmptyMessage(HANDLER_HIDE_CONTROL);
+                } else { //隐藏状态 点击变为显示，倒计时5秒再隐藏
                     mControlLayout.setVisibility(View.VISIBLE);
-                    roomInfoStatus = true;
+                    isControlLayoutVisible = true;
+                    mControlHandler.removeMessages(HANDLER_HIDE_CONTROL);
+                    mControlHandler.sendEmptyMessageDelayed(HANDLER_HIDE_CONTROL,
+                            HANDLER_HIDE_TIME);
                 }
 
                 break;
@@ -157,11 +212,16 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     /**
      * 设置房间信息显示
+     *
      * @param data
      */
     private void setRoomInfo(LiveRoomBean.DataBean.InfoBean data) {
+        mFragmentList.add(new ChatListFragment());
+        mFragmentList.add(AnchorInfoFragment.getInstance(data));
+        mRoomPagerAdapter.notifyDataSetChanged();
+
         mRoomName.setText(data.getRoominfo().getName());
-        mRoomNum.setText(String.format(getString(R.string.room_num),roomId));
+        mRoomNum.setText(String.format(getString(R.string.room_num), roomId));
         mRoomPersonNum.setText(String.format(getString(R.string.room_person_num),
                 data.getRoominfo().getPerson_num()));
         mRoomLiveType.setText(String.format(getString(R.string.room_type),
@@ -183,45 +243,45 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         super.onConfigurationChanged(newConfig);
         //当屏幕变为横屏时
         if (isLandscape()) {
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mVideoContent.getLayoutParams();
-            layoutParams.width = ScreenHelper.getScreenX(this);
-            layoutParams.height = ScreenHelper.getScreenY(this);
-            layoutParams.setMargins(0,0,0,0);
-            mVideoContent.setLayoutParams(layoutParams);
             mRoomInfoLayout.setVisibility(View.GONE);
             mFullScreen.setVisibility(View.GONE);
-
         } else {
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mVideoContent.getLayoutParams();
-            layoutParams.width = ScreenHelper.getScreenX(this);
-            layoutParams.height = ScreenHelper.dp2px(this,240);
-            mVideoContent.setLayoutParams(layoutParams);
             mRoomInfoLayout.setVisibility(View.VISIBLE);
             mFullScreen.setVisibility(View.VISIBLE);
         }
 
+        updateVideoLayoutParams();
+    }
+
+    private void updateVideoLayoutParams() {
+        ViewGroup.LayoutParams lp = mVideoContent.getLayoutParams();
+        if (isLandscape()) {
+            lp.height = ScreenHelper.getScreenY(this);
+        } else {
+            lp.height = ScreenHelper.dp2px(this, 240);
+        }
+        mVideoContent.setLayoutParams(lp);
     }
 
     /**
      * 判断是否是横屏
+     *
      * @return
      */
-    public boolean isLandscape(){
+    public boolean isLandscape() {
         return getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
     }
 
-    public void setFullScreen(){
-        if(isLandscape()){
+    /**
+     * 返回键方法
+     */
+    public void clickBack() {
+        if (isLandscape()) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }else{
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-    }
-
-    public void clickBack(){
-        if(isLandscape()){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }else{
+            //重新倒计时
+            mControlHandler.removeMessages(HANDLER_HIDE_CONTROL);
+            mControlHandler.sendEmptyMessageDelayed(HANDLER_HIDE_CONTROL, HANDLER_HIDE_TIME);
+        } else {
             finish();
         }
     }
@@ -235,6 +295,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         if (mRoomPresenter != null) {
             mRoomPresenter.detachView();
         }
+        mControlHandler.removeMessages(HANDLER_HIDE_CONTROL);
     }
 
     @Override
@@ -256,5 +317,14 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
     @Override
     public void onBackPressed() {
         clickBack();
+    }
+
+    @Override
+    public boolean handleMessage(Message message) {
+        if (message.what == HANDLER_HIDE_CONTROL) {
+            mControlLayout.setVisibility(View.GONE);
+            isControlLayoutVisible = false;
+        }
+        return true;
     }
 }

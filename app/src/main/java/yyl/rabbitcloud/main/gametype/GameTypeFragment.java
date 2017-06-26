@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.base.BaseFragment;
+import yyl.rabbitcloud.main.MainFragment;
 import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.di.component.DaggerFragmentComponent;
@@ -28,7 +29,7 @@ import yyl.rabbitcloud.widget.SearchBar;
  * Created by yyl on 2017/6/18.
  */
 
-public class GameTypeFragment extends BaseFragment implements GameContract.View {
+public class GameTypeFragment extends MainFragment implements GameContract.View {
 
     @BindView(R.id.game_searchbar)
     SearchBar mSearchBar;

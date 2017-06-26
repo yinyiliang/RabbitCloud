@@ -1,5 +1,6 @@
 package yyl.rabbitcloud.liveroom;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -91,7 +92,7 @@ public class LiveRoomBean {
             this.info = info;
         }
 
-        public static class InfoBean {
+        public static class InfoBean implements Serializable {
             /**
              * hostinfo : {"rid":89204152,"name":"TapTap发现好游戏","avatar":"http://i8.pdim
              * .gs/ce6766c2d6c28eecc4b6e6b0a63083e3.png","bamboos":"4300"}
@@ -147,7 +148,7 @@ public class LiveRoomBean {
                 this.videoinfo = videoinfo;
             }
 
-            public static class HostinfoBean {
+            public static class HostinfoBean implements Serializable {
                 /**
                  * rid : 89204152
                  * name : TapTap发现好游戏
@@ -193,7 +194,7 @@ public class LiveRoomBean {
                 }
             }
 
-            public static class RoominfoBean {
+            public static class RoominfoBean implements Serializable {
                 /**
                  * id : 1161093
                  * name : TapTap发现好游戏
@@ -409,7 +410,7 @@ public class LiveRoomBean {
                     this.remind_status = remind_status;
                 }
 
-                public static class PicturesBean {
+                public static class PicturesBean implements Serializable {
                     /**
                      * img : http://i5.pdim.gs/90/5cefd959e809f982b9f8f45c3e243285/w338/h190.jpg
                      */
@@ -426,7 +427,7 @@ public class LiveRoomBean {
                 }
             }
 
-            public static class UserinfoBean {
+            public static class UserinfoBean implements Serializable {
                 /**
                  * rid : 0
                  * ispay : false
@@ -452,7 +453,7 @@ public class LiveRoomBean {
                 }
             }
 
-            public static class VideoinfoBean {
+            public static class VideoinfoBean implements Serializable {
                 /**
                  * name : dota
                  * time : 1944
@@ -577,7 +578,7 @@ public class LiveRoomBean {
                     this.slaveflag = slaveflag;
                 }
 
-                public static class StreamAddrBean {
+                public static class StreamAddrBean implements Serializable {
                     /**
                      * HD : 0
                      * OD : 0

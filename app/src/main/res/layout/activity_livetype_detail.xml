@@ -11,32 +11,34 @@
     <yyl.rabbitcloud.widget.MySwipeRefreshLayout
         android:id="@+id/livetype_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <android.support.v4.widget.NestedScrollView
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:fillViewport="true"
             android:overScrollMode="never">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <com.jude.rollviewpager.RollPagerView
                     android:id="@+id/livetype_banner"
-                    android:paddingStart="@dimen/dip_twenty"
-                    android:paddingEnd="@dimen/dip_twenty"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dip_one_hundred_eighty"/>
+                    android:layout_height="@dimen/dip_one_hundred_eighty"
+                    android:background="@color/white"
+                    android:paddingEnd="@dimen/dip_twenty"
+                    android:paddingStart="@dimen/dip_twenty"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/livetype_recyclerview"
-                    android:layout_margin="@dimen/dip_twenty"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dip_twenty"
                     android:background="@color/white"/>
             </LinearLayout>
 

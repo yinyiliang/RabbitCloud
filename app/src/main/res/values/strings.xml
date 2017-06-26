@@ -5,7 +5,12 @@
     <string name="search_hint">输入房间号</string>
 
     <string name="video_url">http://pl-hls%1$s.live.panda.tv/live_panda/%2$s.m3u8</string>
+    <string name="video_url_1">http://pl%1$s.live.panda.tv/live_panda/%2$s.flv</string>
     <string name="room_num">房间号：%1$s</string>
     <string name="room_person_num">人气：%1$s</string>
     <string name="room_type">类型：%1$s</string>
+    <string name="live_type">直播类型</string>
+    <string name="room_id">房间ID：%1$s</string>
+    <string name="anchor_height">身高：%1$s</string>
+    <string name="anchor_fans">粉丝：%1$s</string>
 </resources>

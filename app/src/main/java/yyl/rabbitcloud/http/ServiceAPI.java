@@ -78,6 +78,11 @@ public interface ServiceAPI {
      */
 
     /**
+     * http://api.m.panda.tv/ajax_chatinfo?roomid=60999
+     * 获取弹幕信息的Bean类
+     */
+
+    /**
      *  主页 banner 和 下面一个
      *
      *  http://api.m.panda.tv/?method=slider.cate&cate=index

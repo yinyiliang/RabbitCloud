@@ -26,6 +26,10 @@ public class LoaderImage {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
     }
 
+    public static void loadCircleImg(Context context, String url, ImageView view) {
+        Glide.with(context).load(url).apply(new RequestOptions().circleCrop()).into(view);
+    }
+
     //加载轮播图片
     public static void loadBannerImg(Context context, String url, ImageView view) {
         Glide.with(context).load(url)

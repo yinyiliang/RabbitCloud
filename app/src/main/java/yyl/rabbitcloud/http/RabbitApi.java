@@ -1,14 +1,15 @@
 package yyl.rabbitcloud.http;
 
 import okhttp3.OkHttpClient;
+import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
+import io.reactivex.Observable;
 import yyl.rabbitcloud.RabbitPublicValue;
 import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.liveroom.fragment.LiveChatInfoBean;
 import yyl.rabbitcloud.liveroom.LiveRoomBean;
-import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
 
@@ -25,7 +26,7 @@ public class RabbitApi extends ObjectLoader {
     public RabbitApi(OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RabbitPublicValue.BASE_URL)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) // 添加Rx适配器
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 添加Rx适配器
                 .addConverterFactory(GsonConverterFactory.create()) // 添加Gson转换器
                 .client(okHttpClient)
                 .build();
@@ -67,6 +68,13 @@ public class RabbitApi extends ObjectLoader {
      */
     public Observable<LiveRoomBean> getLiveRoomInfo(String roomId) {
         return observe(service.getLiveRoomInfo(roomId));
+    }
+
+    /**
+     * 根据房间号获取可请求弹幕数据的数据
+     */
+    public Observable<LiveChatInfoBean> getChatListInfo(String roomId) {
+        return observe(service.getChatListInfo(roomId));
     }
 
 }

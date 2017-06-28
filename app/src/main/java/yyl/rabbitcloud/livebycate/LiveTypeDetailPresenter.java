@@ -6,9 +6,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Func1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import yyl.rabbitcloud.base.RxPresenter;
 import yyl.rabbitcloud.http.RabbitApi;
 import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
@@ -29,27 +30,16 @@ public class LiveTypeDetailPresenter extends RxPresenter<LiveTypeDetailContract.
 
     @Override
     public void getLiveTypeData(String cate, int pageno, final int pagenum) {
-        Subscription subscription = mRabbitApi.getRoomInfoByCate(cate, pageno, pagenum)
-                .map(new Func1<LiveRoomListBean, LiveRoomListBean.DataBean>() {
+        Disposable disposable = mRabbitApi.getRoomInfoByCate(cate, pageno, pagenum)
+                .map(new Function<LiveRoomListBean, LiveRoomListBean.DataBean>() {
                     @Override
-                    public LiveRoomListBean.DataBean call(LiveRoomListBean liveRoomListBean) {
+                    public LiveRoomListBean.DataBean apply(LiveRoomListBean liveRoomListBean) {
                         return liveRoomListBean.getData();
                     }
                 })
-                .subscribe(new Subscriber<LiveRoomListBean.DataBean>() {
+                .subscribe(new Consumer<LiveRoomListBean.DataBean>() {
                     @Override
-                    public void onCompleted() {
-                        mView.complete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.d(e.toString());
-                        mView.showError();
-                    }
-
-                    @Override
-                    public void onNext(LiveRoomListBean.DataBean dataBean) {
+                    public void accept(@NonNull LiveRoomListBean.DataBean dataBean) throws Exception {
                         if (dataBean != null && mView != null) {
                             if (dataBean.getBanners() != null) {
                                 List<LiveRoomListBean.DataBean.BannersBean> bannersData =
@@ -61,9 +51,8 @@ public class LiveTypeDetailPresenter extends RxPresenter<LiveTypeDetailContract.
                                     dataBean.getItems();
                             mView.showLiveTypeItemsData(itemsData);
                         }
-
                     }
                 });
-        addSubscrebe(subscription);
+        addDisposable(disposable);
     }
 }

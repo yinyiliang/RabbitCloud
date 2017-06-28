@@ -1,6 +1,7 @@
 package yyl.rabbitcloud.di.component;
 
 import dagger.Component;
+import yyl.rabbitcloud.liveroom.fragment.ChatListFragment;
 import yyl.rabbitcloud.main.gametype.GameTypeFragment;
 
 /**
@@ -12,4 +13,5 @@ public interface FragmentComponent {
 
     GameTypeFragment inject(GameTypeFragment typeFragment);
 
+    ChatListFragment inject(ChatListFragment chatListFragment);
 }

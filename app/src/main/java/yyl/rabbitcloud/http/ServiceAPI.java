@@ -2,11 +2,12 @@ package yyl.rabbitcloud.http;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
+import io.reactivex.Observable;
 import yyl.rabbitcloud.bean.FindRoomInfoByIdBean;
 import yyl.rabbitcloud.bean.SearchRoomBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.liveroom.fragment.LiveChatInfoBean;
 import yyl.rabbitcloud.liveroom.LiveRoomBean;
 import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
 
@@ -81,6 +82,8 @@ public interface ServiceAPI {
      * http://api.m.panda.tv/ajax_chatinfo?roomid=60999
      * 获取弹幕信息的Bean类
      */
+    @GET("ajax_chatinfo")
+    Observable<LiveChatInfoBean> getChatListInfo(@Query("roomid") String roomid);
 
     /**
      *  主页 banner 和 下面一个

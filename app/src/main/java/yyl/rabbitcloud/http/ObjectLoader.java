@@ -1,8 +1,9 @@
 package yyl.rabbitcloud.http;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Observable;
 
 /**
  *
@@ -19,7 +20,7 @@ class ObjectLoader {
      */
     <T> Observable<T> observe(Observable<T> observable){
         return observable.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

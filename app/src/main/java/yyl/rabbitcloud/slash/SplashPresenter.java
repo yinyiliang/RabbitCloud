@@ -2,10 +2,10 @@ package yyl.rabbitcloud.slash;
 
 import javax.inject.Inject;
 
-import rx.Observer;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Func1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import yyl.rabbitcloud.App;
 import yyl.rabbitcloud.base.RxPresenter;
 import yyl.rabbitcloud.bean.SplashScreenBean;
@@ -28,31 +28,26 @@ public class SplashPresenter extends RxPresenter<SplashContract.View>
 
     @Override
     public void getSplashData() {
-        Subscription rxSubscription =  mRabbitApi.getSplashData()
-                .map(new Func1<SplashScreenBean, SplashScreenBean.DataBean.RmddataBean>() {
+        Disposable disposable = mRabbitApi.getSplashData()
+                .map(new Function<SplashScreenBean, SplashScreenBean.DataBean.RmddataBean>() {
                     @Override
-                    public SplashScreenBean.DataBean.RmddataBean call(SplashScreenBean splashScreenBean) {
+                    public SplashScreenBean.DataBean.RmddataBean apply(
+                            @NonNull SplashScreenBean
+                                    splashScreenBean) throws Exception {
                         return splashScreenBean.getData().getRmddata();
                     }
+
                 })
-                .subscribe(new Subscriber<SplashScreenBean.DataBean.RmddataBean>() {
+                .subscribe(new Consumer<SplashScreenBean.DataBean.RmddataBean>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SplashScreenBean.DataBean.RmddataBean data) {
+                    public void accept(
+                            @NonNull SplashScreenBean.DataBean.RmddataBean
+                                    data) throws Exception {
                         if (data != null && mView != null) {
                             mView.showSplashData(data);
                         }
                     }
                 });
-                addSubscrebe(rxSubscription);
+        addDisposable(disposable);
     }
 }

@@ -3,32 +3,20 @@ package yyl.rabbitcloud.liveroom;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.orhanobut.logger.Logger;
-import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
-import com.pili.pldroid.player.widget.PLVideoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +131,6 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
     protected void initUi() {
         updateVideoLayoutParams();
         mVideoPlayView.setBufferingIndicator(mProgressBar);
-        mVideoPlayView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_ORIGIN);
     }
 
     @Override
@@ -216,7 +203,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
      * @param data
      */
     private void setRoomInfo(LiveRoomBean.DataBean.InfoBean data) {
-        mFragmentList.add(new ChatListFragment());
+        mFragmentList.add(ChatListFragment.getInstance(roomId));
         mFragmentList.add(AnchorInfoFragment.getInstance(data));
         mRoomPagerAdapter.notifyDataSetChanged();
 
@@ -258,7 +245,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         if (isLandscape()) {
             lp.height = ScreenHelper.getScreenY(this);
         } else {
-            lp.height = ScreenHelper.dp2px(this, 240);
+            lp.height = ScreenHelper.dp2px(this, 200);
         }
         mVideoContent.setLayoutParams(lp);
     }

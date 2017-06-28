@@ -192,6 +192,7 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     public void showLiveTypeItemsData(List<LiveRoomListBean.DataBean.ItemsBean> data) {
+        mRefreshLayout.refreshComplete();
         switch (mRefreshState) {
             case REFRESH_STATE_UPDATE:
                 mItemsBeen.clear();
@@ -207,12 +208,12 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     public void showError() {
-        Logger.d("数据出错！");
+
     }
 
     @Override
     public void complete() {
-        mRefreshLayout.refreshComplete();
+
     }
 
     @Override

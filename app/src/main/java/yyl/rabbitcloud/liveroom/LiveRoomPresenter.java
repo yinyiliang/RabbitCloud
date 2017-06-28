@@ -4,9 +4,10 @@ import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
-import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Func1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import yyl.rabbitcloud.base.RxPresenter;
 import yyl.rabbitcloud.http.RabbitApi;
 
@@ -27,33 +28,28 @@ public class LiveRoomPresenter extends RxPresenter<LiveRoomContract.View>
 
     @Override
     public void getRoomInfo(String roomId) {
-        Subscription subscription = mRabbitApi.getLiveRoomInfo(roomId)
-                .map(new Func1<LiveRoomBean, LiveRoomBean.DataBean.InfoBean>() {
+        Disposable disposable = mRabbitApi.getLiveRoomInfo(roomId)
+                .map(new Function<LiveRoomBean, LiveRoomBean.DataBean.InfoBean>() {
                     @Override
-                    public LiveRoomBean.DataBean.InfoBean call(LiveRoomBean liveRoomBean) {
+                    public LiveRoomBean.DataBean.InfoBean apply(LiveRoomBean liveRoomBean) {
                         return liveRoomBean.getData().getInfo();
                     }
                 })
-                .subscribe(new Subscriber<LiveRoomBean.DataBean.InfoBean>() {
+                .subscribe(new Consumer<LiveRoomBean.DataBean.InfoBean>() {
                     @Override
-                    public void onCompleted() {
-                        mView.complete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e.toString());
-                        mView.showError();
-                    }
-
-                    @Override
-                    public void onNext(LiveRoomBean.DataBean.InfoBean infoBean) {
+                    public void accept(@NonNull LiveRoomBean.DataBean.InfoBean infoBean)
+                            throws Exception {
                         if (infoBean != null && mView != null) {
                             mView.showRoomInfo(infoBean);
                         }
                     }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mView.showError();
+                    }
                 });
-        addSubscrebe(subscription);
+        addDisposable(disposable);
     }
 
 }

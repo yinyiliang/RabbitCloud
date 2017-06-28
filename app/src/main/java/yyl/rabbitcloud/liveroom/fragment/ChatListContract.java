@@ -11,7 +11,7 @@ public interface ChatListContract {
     interface View extends BaseContract.BaseView {
         void showChatListInfo(LiveChatInfoBean bean);
 
-        void showDanmuData(DanmuBean bean);
+        void showDanMuData(DanMuDataBean bean);
     }
 
     interface Presenter<T> extends BaseContract.BasePresenter<T> {

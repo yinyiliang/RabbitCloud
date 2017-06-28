@@ -97,7 +97,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         Random r = new Random(SystemClock.elapsedRealtime());
         LoaderImage.loadSplash(this, SPLASH_IMG[r.nextInt(SPLASH_IMG.length)], splashImg);
 
-        mMyHandler.sendEmptyMessageDelayed(1,2000);
+        mMyHandler.sendEmptyMessageDelayed(1, 2000);
     }
 
     @Override
@@ -120,9 +120,15 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     }
 
     @Override
-    public void showSplashData(SplashScreenBean.DataBean.RmddataBean bean) {
-        splashSlogan.setText(bean.getText().getTitle());
-        splashSource.setText(bean.getText().getFrom() + " | " + bean.getText().getRole());
+    public void showSplashData(SplashScreenBean bean) {
+
+        if (bean.getData().getRmddata() != null) {
+
+            splashSlogan.setText(bean.getData().getRmddata().getText().getTitle());
+            splashSource.setText(bean.getData().getRmddata().getText().getFrom() +
+                    " | " + bean.getData().getRmddata().getText().getRole());
+        }
+
     }
 
     @Override

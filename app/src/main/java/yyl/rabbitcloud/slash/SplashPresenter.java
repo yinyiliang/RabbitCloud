@@ -29,22 +29,11 @@ public class SplashPresenter extends RxPresenter<SplashContract.View>
     @Override
     public void getSplashData() {
         Disposable disposable = mRabbitApi.getSplashData()
-                .map(new Function<SplashScreenBean, SplashScreenBean.DataBean.RmddataBean>() {
+                .subscribe(new Consumer<SplashScreenBean>() {
                     @Override
-                    public SplashScreenBean.DataBean.RmddataBean apply(
-                            @NonNull SplashScreenBean
-                                    splashScreenBean) throws Exception {
-                        return splashScreenBean.getData().getRmddata();
-                    }
-
-                })
-                .subscribe(new Consumer<SplashScreenBean.DataBean.RmddataBean>() {
-                    @Override
-                    public void accept(
-                            @NonNull SplashScreenBean.DataBean.RmddataBean
-                                    data) throws Exception {
-                        if (data != null && mView != null) {
-                            mView.showSplashData(data);
+                    public void accept(@NonNull SplashScreenBean splashScreenBean) throws Exception {
+                        if (splashScreenBean != null && mView != null) {
+                            mView.showSplashData(splashScreenBean);
                         }
                     }
                 });

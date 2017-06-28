@@ -1,9 +1,15 @@
 package yyl.rabbitcloud.liveroom.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.orhanobut.logger.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -22,10 +28,16 @@ public class ChatListFragment extends BaseFragment implements ChatListContract.V
     @BindView(R.id.chat_recycler_view)
     RecyclerView mChatInfoView;
 
+    @BindView(R.id.re_load_chat)
+    Button mButton;
+
     @Inject
     ChatInfoPresenter mChatInfoPresenter;
 
     private String roomId;
+    private List<DanmuBean> mDanmuBeanList;
+    private List<DanMuDataBean> mMuDataBeen;
+    private ChatListAdapter mChatListAdapter;
 
     @Override
     public int getLayoutResId() {
@@ -57,13 +69,30 @@ public class ChatListFragment extends BaseFragment implements ChatListContract.V
     protected void initData() {
         roomId = getArguments().getString("roomId");
 
+        mDanmuBeanList = new ArrayList<>();
+        mMuDataBeen = new ArrayList<>();
+        mChatListAdapter = new ChatListAdapter(getContext(),mMuDataBeen);
+        mChatInfoView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mChatInfoView.setAdapter(mChatListAdapter);
+
         mChatInfoPresenter.attachView(this);
         mChatInfoPresenter.getChatListInfo(roomId);
     }
 
     @Override
     protected void initListener() {
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mChatInfoPresenter.getChatListInfo(roomId);
+            }
+        });
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mChatInfoPresenter.getChatListInfo(roomId);
     }
 
     @Override
@@ -72,13 +101,19 @@ public class ChatListFragment extends BaseFragment implements ChatListContract.V
     }
 
     @Override
-    public void showDanmuData(DanmuBean bean) {
-        Logger.e(bean.getData().getFrom().getNickName() + ":" + bean.getData().getContent());
+    public void showDanMuData(DanMuDataBean bean) {
+        if (!bean.getFrom().getRid().equals("-1")) {
+            if (!bean.getFrom().getNickName().equals("")) {
+                mMuDataBeen.add(bean);
+                mChatListAdapter.notifyDataSetChanged();
+                mChatInfoView.scrollToPosition(mMuDataBeen.size()-1);
+            }
+        }
     }
 
     @Override
     public void showError() {
-
+        Logger.e("无法连接至弹幕！");
     }
 
     @Override

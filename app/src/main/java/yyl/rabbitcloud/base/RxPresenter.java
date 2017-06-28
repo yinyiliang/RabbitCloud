@@ -26,7 +26,7 @@ public class RxPresenter<T extends BaseContract.BaseView> implements BaseContrac
     protected T mView;
     private CompositeDisposable mCompositeDisposable;
 
-    protected void unSubscribe() {
+    private void unSubscribe() {
         if (!mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.clear();
         }

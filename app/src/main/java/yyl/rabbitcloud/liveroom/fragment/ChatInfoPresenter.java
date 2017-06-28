@@ -1,14 +1,22 @@
 package yyl.rabbitcloud.liveroom.fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,6 +25,7 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -29,6 +38,7 @@ import yyl.rabbitcloud.http.RabbitApi;
 import yyl.rabbitcloud.util.DanmuUtil;
 
 /**
+ * 感谢452MJ的C9MJ项目中的弹幕数据获取
  * Created by yyl on 2017/6/27.
  */
 
@@ -44,7 +54,6 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
     private boolean isConnectSuccess = false;
     //心跳包相关
     private boolean isAlreadySendHeart = false;  //是否已发送心跳包
-    private boolean isHeartStop = false;     //用于外部控制心跳线程结束
     //弹幕接收相关
     private boolean isReceiveStop = false;     //用于外部控制接收线程结束
     private Socket socket = null;
@@ -53,12 +62,11 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
 
     private RabbitApi mRabbitApi;
 
-    private Gson gson;
+    private Gson gson = new Gson();
 
     @Inject
     ChatInfoPresenter(RabbitApi rabbitApi) {
         this.mRabbitApi = rabbitApi;
-        gson = new Gson();
     }
 
 
@@ -89,7 +97,7 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
             @Override
             public void subscribe(FlowableEmitter<String> e) throws Exception {
                 //接收响应数据
-                byte readData[] = new byte[6];
+                byte[] readData = new byte[6];
 
                 socketIP = chatRoomList.get(0).split(":")[0];
                 socketPort = Integer.parseInt(chatRoomList.get(0).split(":")[1]);
@@ -121,6 +129,7 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
             }
         }, BackpressureStrategy.DROP)
                 .subscribeOn(Schedulers.newThread())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<String>() {
                     @Override
@@ -133,6 +142,7 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
 
                     @Override
                     public void onError(Throwable e) {
+                        Logger.e("Socket连接：" + e.toString());
                     }
 
                     @Override
@@ -143,21 +153,31 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
 
     }
 
+    private byte[] readStream(InputStream inStream) throws Exception {
+        int count = 0;
+        while (count == 0) {
+            count = inStream.available();
+        }
+        byte[] b = new byte[count];
+        inStream.read(b);
+        return b;
+    }
+
     private void runHeartDanmuOnRxJava() {
         //接收弹幕
         Flowable.create(new FlowableOnSubscribe<String>() {
             @Override
             public void subscribe(FlowableEmitter<String> e) throws Exception {
-                byte[] messege = new byte[1024];
 
                 while (!isReceiveStop) {
                     //读取服务器返回信息，并获取返回信息的整体字节长度
-                    int recvLen = bis.read(messege, 0, messege.length);
+                    byte[] message = readStream(bis);
+                    int recvLen = message.length;
+
                     //根据实际获取的字节数初始化返回信息内容长度
                     byte[] realBuf = new byte[recvLen];
                     //按照实际获取的字节长度读取返回信息
-                    System.arraycopy(messege, 0, realBuf, 0, recvLen);
-
+                    System.arraycopy(message, 0, realBuf, 0, recvLen);
                     if (recvLen >= 4) {//成功接收到数据
                         //分析帧头
                         if (realBuf[0] == DanmuUtil.RECEIVE_MSG[0] &&//1.弹幕
@@ -167,38 +187,35 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
 
                             //{"type":"1","time":1477356608,"data":{"from":{"__plat":"android","identity":"30","level":"4","msgcolor":"","nickName":"看了还说了","rid":"45560306","sp_identity":"0","userName":""},"to":{"toroom":"15161"},"content":"我去"}}
                             String content = new String(realBuf, "UTF-8");
-
                             //第一条弹幕
                             int danmuFromIndex = content.indexOf("{\"type");
-                            int danmuToIndex = content.indexOf("}}");
 
-                            //第二条弹幕（可有）
-                            int danmuFromIndex_2 = content.lastIndexOf("{\"type");
-                            int danmuToIndex_2 = content.lastIndexOf("}}");
+                            String json = content.substring(danmuFromIndex, content.length());
+//                            Logger.e("弹幕消息：" + json);
+                            if (json.contains("ack:")) {
+                                int jsonFromIndex = json.indexOf("ack:");
+                                int jsonToIndex = json.indexOf("{\"type");
+                                if (jsonToIndex != 0) {
+                                    String splits = json.substring(jsonFromIndex,jsonToIndex-1);
+                                    String[] jsons = json.split(splits);
 
-                            String danmu;//存放弹幕
-
-                            danmu = content.substring(danmuFromIndex, danmuToIndex + 2);
-                            if (TextUtils.isEmpty(danmu)) {//为空不发射事件
-                                continue;
-                            }
-                            e.onNext(danmu);
-
-                            //如果存在第二条弹幕
-                            if (!(danmuFromIndex == danmuFromIndex_2 &&
-                                    danmuToIndex == danmuToIndex_2)) {
-                                danmu = content.substring(danmuFromIndex_2, danmuToIndex_2 + 2);
-                                if (TextUtils.isEmpty(danmu)) {
-                                    continue;
+                                    for (int i = 0; i < jsons.length; i++) {
+//                                        Logger.e("多条数据" + i + "："+ jsons[i]);
+                                        e.onNext(jsons[i]);
+                                    }
                                 }
-                                e.onNext(danmu);
+                            } else {
+                                JSONObject jsonObject = new JSONObject(json);
+                                String jsonData = jsonObject.optString("data");
+
+//                                Logger.e("单条数据;" + jsonData);
+                                e.onNext(jsonData);
                             }
 
-
-                        } else if (messege[0] == DanmuUtil.HEART_BEAT_RESPONSE[0] &&//2.心跳包
-                                messege[1] == DanmuUtil.HEART_BEAT_RESPONSE[1] &&
-                                messege[2] == DanmuUtil.HEART_BEAT_RESPONSE[2] &&
-                                messege[3] == DanmuUtil.HEART_BEAT_RESPONSE[3]) {
+                        } else if (message[0] == DanmuUtil.HEART_BEAT_RESPONSE[0] &&//2.心跳包
+                                message[1] == DanmuUtil.HEART_BEAT_RESPONSE[1] &&
+                                message[2] == DanmuUtil.HEART_BEAT_RESPONSE[2] &&
+                                message[3] == DanmuUtil.HEART_BEAT_RESPONSE[3]) {
                             //接收到响应，重置心跳包发送标志位
                             isAlreadySendHeart = false;
                         }
@@ -207,6 +224,7 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
             }
         }, BackpressureStrategy.DROP)
                 .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSubscriber<String>() {
                     @Override
@@ -216,7 +234,7 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
 
                     @Override
                     public void onError(Throwable e) {
-//                        view.showError(e.getMessage());
+                        Logger.e("接收弹幕：" + e.toString());
                     }
 
                     @Override
@@ -227,42 +245,49 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
                                 return;
                             }
                         }
-                        parseDanmu(result);
+                        parseDanMu(result);
                     }
                 });
     }
 
-    private Object parseJson(String jsonStr, Class clazz) {
+    private Object parseJson(String jsonStr, Class clazz) throws Exception {
+        if (!jsonStr.endsWith("}")) {
+            return null;
+        }
         return gson.fromJson(jsonStr, clazz);
     }
 
-    private void parseDanmu(final String result) {
-        Flowable.create(new FlowableOnSubscribe<DanmuBean>() {
+    private void parseDanMu(final String result) {
+        Flowable.create(new FlowableOnSubscribe<DanMuDataBean>() {
             @Override
-            public void subscribe(FlowableEmitter<DanmuBean> e) throws Exception {
+            public void subscribe(FlowableEmitter<DanMuDataBean> e) throws Exception {
                 //解析弹幕Json
-                int one = result.indexOf("1");
-                if (result.substring(one, one + 1).equals("1")) {
-                    DanmuBean danmuBean = (DanmuBean) parseJson(result, DanmuBean.class);
-                    e.onNext(danmuBean);
+                DanMuDataBean danmu = (DanMuDataBean) parseJson(result, DanMuDataBean.class);
+                if (danmu != null) {
+                    e.onNext(danmu);
+                } else {
+                    e.onComplete();
                 }
             }
         }, BackpressureStrategy.BUFFER)
                 .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultSubscriber<DanmuBean>() {
+                .subscribe(new DefaultSubscriber<DanMuDataBean>() {
                     @Override
                     public void onComplete() {
                     }
 
                     @Override
                     public void onError(Throwable e) {
-//                        view.showError(e.getMessage());
+                        Logger.e("解析弹幕：" + e.toString());
                     }
 
                     @Override
-                    public void onNext(DanmuBean bean) {
-                        mView.showDanmuData(bean);
+                    public void onNext(DanMuDataBean bean) {
+                        if (bean != null && mView != null) {
+                            mView.showDanMuData(bean);
+                        }
                     }
                 });
     }
@@ -274,7 +299,6 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
                 bos != null &&
                 socket.isConnected()) {
             try {
-                isHeartStop = true;//停止心跳线程
                 isReceiveStop = true;//停止弹幕消息接收
                 bis.close();
                 bos.close();

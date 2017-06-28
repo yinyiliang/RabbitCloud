@@ -11,7 +11,7 @@ public interface SplashContract {
 
     interface View extends BaseContract.BaseView{
 
-        void showSplashData(SplashScreenBean.DataBean.RmddataBean data);
+        void showSplashData(SplashScreenBean data);
 
     }
 

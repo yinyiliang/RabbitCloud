@@ -13,6 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <master.flame.danmaku.ui.widget.DanmakuView
+        android:id="@+id/danmu_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <RelativeLayout
         android:id="@+id/rl_room_live_control"
         android:background="@drawable/live_room_cover"

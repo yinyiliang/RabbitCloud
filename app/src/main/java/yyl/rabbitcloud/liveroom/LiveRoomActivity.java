@@ -25,6 +25,14 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import master.flame.danmaku.controller.DrawHandler;
+import master.flame.danmaku.danmaku.model.BaseDanmaku;
+import master.flame.danmaku.danmaku.model.DanmakuTimer;
+import master.flame.danmaku.danmaku.model.IDanmakus;
+import master.flame.danmaku.danmaku.model.android.DanmakuContext;
+import master.flame.danmaku.danmaku.model.android.Danmakus;
+import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
+import master.flame.danmaku.ui.widget.DanmakuView;
 import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.base.BaseActivity;
 import yyl.rabbitcloud.di.component.AppComponent;
@@ -42,6 +50,8 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     @BindView(R.id.video_view)
     PLVideoTextureView mVideoPlayView;
+    @BindView(R.id.danmu_view)
+    DanmakuView mDanmakuView;
     @BindView(R.id.fl_video_content)
     FrameLayout mVideoContent;
     //动态隐藏的控制布局
@@ -88,6 +98,14 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
     private String[] mTitles;
     private List<Fragment> mFragmentList;
 
+    private DanmakuContext mDanmakuContext;
+    private final BaseDanmakuParser parser = new BaseDanmakuParser() {
+        @Override
+        protected IDanmakus parse() {
+            return new Danmakus();
+        }
+    };
+
     @Override
     protected void initToolBar() {
         mToolbar.setVisibility(View.GONE);
@@ -131,6 +149,10 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
     protected void initUi() {
         updateVideoLayoutParams();
         mVideoPlayView.setBufferingIndicator(mProgressBar);
+        mDanmakuView.enableDanmakuDrawingCache(true);
+        mDanmakuContext = DanmakuContext.create();
+        mDanmakuContext.setDuplicateMergingEnabled(true);
+        mDanmakuView.prepare(parser, mDanmakuContext);
     }
 
     @Override
@@ -143,7 +165,27 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     @Override
     protected void initListener() {
+        mDanmakuView.setCallback(new DrawHandler.Callback() {
+            @Override
+            public void prepared() {
+                mDanmakuView.start();
+            }
 
+            @Override
+            public void updateTimer(DanmakuTimer timer) {
+
+            }
+
+            @Override
+            public void danmakuShown(BaseDanmaku danmaku) {
+
+            }
+
+            @Override
+            public void drawingFinished() {
+
+            }
+        });
     }
 
     @OnClick({R.id.img_liveroom_back, R.id.rl_room_info, R.id.img_fullscreen, R.id
@@ -282,6 +324,10 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         if (mRoomPresenter != null) {
             mRoomPresenter.detachView();
         }
+        if (mDanmakuView != null) {
+            mDanmakuView.release();
+            mDanmakuView = null;
+        }
         mControlHandler.removeMessages(HANDLER_HIDE_CONTROL);
     }
 
@@ -291,6 +337,9 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         if (mVideoPlayView != null) {
             mVideoPlayView.start();
         }
+        if (mDanmakuView != null && mDanmakuView.isPrepared() && mDanmakuView.isPaused()) {
+            mDanmakuView.resume();
+        }
     }
 
     @Override
@@ -299,10 +348,17 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         if (mVideoPlayView != null) {
             mVideoPlayView.pause();
         }
+        if (mDanmakuView != null && mDanmakuView.isPrepared()) {
+            mDanmakuView.pause();
+        }
     }
 
     @Override
     public void onBackPressed() {
+        if (mDanmakuView != null) {
+            mDanmakuView.release();
+            mDanmakuView = null;
+        }
         clickBack();
     }
 

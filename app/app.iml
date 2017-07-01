@@ -103,6 +103,7 @@
     <orderEntry type="jdk" jdkName="Android API 25 Platform (1)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="easypermissions-0.4.2" level="project" />
+    <orderEntry type="library" exported="" name="DanmakuFlameMaster-0.8.3" level="project" />
     <orderEntry type="library" exported="" name="annotations-4.0.0-RC0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="runner-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-idling-resource-2.2.2" level="project" />
@@ -134,6 +135,7 @@
     <orderEntry type="library" exported="" name="design-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="javax.annotation-10.0-b28" level="project" />
+    <orderEntry type="library" exported="" name="ndkbitmap-armv7a-0.8.3" level="project" />
     <orderEntry type="library" exported="" name="leakcanary-analyzer-1.5.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.3.1" level="project" />

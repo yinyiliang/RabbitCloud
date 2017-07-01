@@ -12,8 +12,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,14 +56,11 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
     private String socketIP;
     private int socketPort;
     private boolean isConnectSuccess = false;
-    //心跳包相关
-    private boolean isAlreadySendHeart = false;  //是否已发送心跳包
     //弹幕接收相关
     private boolean isReceiveStop = false;     //用于外部控制接收线程结束
     private Socket socket = null;
     private BufferedInputStream bis;
     private BufferedOutputStream bos;
-
     private RabbitApi mRabbitApi;
 
     private Gson gson = new Gson();
@@ -105,13 +106,11 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
 
                 bis = new BufferedInputStream(socket.getInputStream());//得到Socket输入流
                 bos = new BufferedOutputStream(socket.getOutputStream());//得到Socket输出流
-
                 //发送建立连接请求
                 bos.write(DanmuUtil.getConnectData(chatInfo.getData()));
                 bos.flush();
                 bis.read(readData);
                 int isLength = bis.read();
-
                 if (isLength >= 6) {
                     if (!(readData[0] == DanmuUtil.RESPONSE[0] &&
                             readData[1] == DanmuUtil.RESPONSE[1] &&
@@ -216,8 +215,6 @@ public class ChatInfoPresenter extends RxPresenter<ChatListContract.View> implem
                                 message[1] == DanmuUtil.HEART_BEAT_RESPONSE[1] &&
                                 message[2] == DanmuUtil.HEART_BEAT_RESPONSE[2] &&
                                 message[3] == DanmuUtil.HEART_BEAT_RESPONSE[3]) {
-                            //接收到响应，重置心跳包发送标志位
-                            isAlreadySendHeart = false;
                         }
                     }
                 }

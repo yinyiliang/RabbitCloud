@@ -1,7 +1,7 @@
 package yyl.rabbitcloud.util;
 
 
-import yyl.rabbitcloud.liveroom.fragment.LiveChatInfoBean;
+import yyl.rabbitcloud.liveroom.bean.LiveChatInfoBean;
 
 /**
  * author: liminjie

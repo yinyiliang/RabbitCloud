@@ -4,6 +4,8 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
+
 /**
  * RecyclerView grid行间距间隔
  * Created by yyl on 2017/6/19.
@@ -43,6 +45,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
                 outRect.top = vSpacing; // item top
             }
         }
+
     }
 
 }

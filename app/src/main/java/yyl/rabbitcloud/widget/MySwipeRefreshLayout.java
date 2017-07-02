@@ -3,6 +3,7 @@ package yyl.rabbitcloud.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;

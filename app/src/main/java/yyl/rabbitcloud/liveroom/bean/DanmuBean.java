@@ -1,4 +1,4 @@
-package yyl.rabbitcloud.liveroom.fragment;
+package yyl.rabbitcloud.liveroom.bean;
 
 /**
  * Created by Administrator on 2016/10/19.

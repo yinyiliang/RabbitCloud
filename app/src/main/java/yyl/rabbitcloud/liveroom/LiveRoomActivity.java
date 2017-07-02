@@ -3,14 +3,17 @@ package yyl.rabbitcloud.liveroom;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -24,6 +27,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
@@ -37,9 +41,12 @@ import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.base.BaseActivity;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.di.component.DaggerActivityComponent;
-import yyl.rabbitcloud.liveroom.fragment.AnchorInfoFragment;
-import yyl.rabbitcloud.liveroom.fragment.ChatListFragment;
+import yyl.rabbitcloud.liveroom.bean.DanMuDataBean;
+import yyl.rabbitcloud.liveroom.bean.LiveChatInfoBean;
+import yyl.rabbitcloud.liveroom.bean.LiveRoomBean;
+import yyl.rabbitcloud.util.LoaderImage;
 import yyl.rabbitcloud.util.ScreenHelper;
+import yyl.rabbitcloud.util.SmallToolsHelper;
 
 /**
  * Created by yyl on 2017/6/23.
@@ -83,6 +90,20 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
     @BindView(R.id.live_room_viewpager)
     ViewPager mViewPager;
 
+    //弹幕消息列表
+    private RecyclerView mChatInfoView;
+    private Button mRetryGetDanmuBtn;
+    private List<DanMuDataBean> mMuDataBeen;
+    private ChatListAdapter mChatListAdapter;
+
+    //房主房间信息
+    private ImageView mAnchorHead;
+    private TextView mAnchorName;
+    private TextView mAnchorRoomId;
+    private TextView mAnchorHeight;
+    private TextView mAnchorFans;
+    private TextView mAnchorLiveRoomDetail;
+
     @Inject
     LiveRoomPresenter mRoomPresenter;
 
@@ -94,10 +115,11 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     private String roomId;
 
-    private LiveRoomPagerAdapter mRoomPagerAdapter;
     private String[] mTitles;
-    private List<Fragment> mFragmentList;
+    private LiveRoomViewPagerAdapter mPagerAdapter;
+    private List<View> mViewList;
 
+    private boolean isShowDanmu = false;
     private DanmakuContext mDanmakuContext;
     private final BaseDanmakuParser parser = new BaseDanmakuParser() {
         @Override
@@ -129,10 +151,10 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         roomId = getIntent().getStringExtra("roomId");
 
         mTitles = new String[]{"聊天", "主播"};
-        mFragmentList = new ArrayList<>();
-        mRoomPagerAdapter = LiveRoomPagerAdapter.getInstance(getSupportFragmentManager(),
-                mFragmentList, mTitles);
-        mViewPager.setAdapter(mRoomPagerAdapter);
+        mViewList = new ArrayList<>();
+        mPagerAdapter = new LiveRoomViewPagerAdapter(mTitles);
+        initPagerView();
+        mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
         //初始化handler 刚进来mControlLayout是显示的，发送个延时消息 5秒后自动隐藏
@@ -142,7 +164,33 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
         mRoomPresenter.attachView(this);
         mRoomPresenter.getRoomInfo(roomId);
+        mRoomPresenter.getChatListInfo(roomId);
 
+    }
+
+    private void initPagerView() {
+        //弹幕列表view
+        View chatContentView = getLayoutInflater().inflate(R.layout.fragment_chatlist,null);
+        mViewList.add(chatContentView);
+        mChatInfoView = ButterKnife.findById(chatContentView,R.id.chat_recycler_view);
+        mRetryGetDanmuBtn = ButterKnife.findById(chatContentView,R.id.re_load_chat);
+
+        mMuDataBeen = new ArrayList<>();
+        mChatListAdapter = new ChatListAdapter(this,mMuDataBeen);
+        mChatInfoView.setLayoutManager(new LinearLayoutManager(this));
+        mChatInfoView.setAdapter(mChatListAdapter);
+
+        //房间信息view
+        View roomInfoView = getLayoutInflater().inflate(R.layout.fragment_anchor_info,null);
+        mViewList.add(roomInfoView);
+        mAnchorHead = ButterKnife.findById(roomInfoView,R.id.img_anchor_head);
+        mAnchorName = ButterKnife.findById(roomInfoView,R.id.tv_anchor_name);
+        mAnchorRoomId = ButterKnife.findById(roomInfoView,R.id.tv_live_room_room_id);
+        mAnchorHeight = ButterKnife.findById(roomInfoView,R.id.tv_anchor_height);
+        mAnchorFans = ButterKnife.findById(roomInfoView,R.id.tv_anchor_fans);
+        mAnchorLiveRoomDetail = ButterKnife.findById(roomInfoView,R.id.tv_live_room_livedetail);
+
+        mPagerAdapter.setViewList(mViewList);
     }
 
     @Override
@@ -153,6 +201,10 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         mDanmakuContext = DanmakuContext.create();
         mDanmakuContext.setDuplicateMergingEnabled(true);
         mDanmakuView.prepare(parser, mDanmakuContext);
+        if (!isLandscape()) {
+            mDanmakuView.hideAndPauseDrawTask();
+            isShowDanmu = false;
+        }
     }
 
     @Override
@@ -186,19 +238,21 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
             }
         });
+
+        mRetryGetDanmuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRoomPresenter.getChatListInfo(roomId);
+            }
+        });
     }
 
-    @OnClick({R.id.img_liveroom_back, R.id.rl_room_info, R.id.img_fullscreen, R.id
-            .fl_video_content})
+    @OnClick({R.id.img_liveroom_back, R.id.img_fullscreen, R.id.fl_video_content})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_liveroom_back:
                 //返回按钮
                 clickBack();
-                break;
-            case R.id.rl_room_info:
-                //房间信息显示
-
                 break;
             case R.id.img_fullscreen:
                 //全屏控制 横屏
@@ -219,11 +273,16 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
                     mControlHandler.sendEmptyMessageDelayed(HANDLER_HIDE_CONTROL,
                             HANDLER_HIDE_TIME);
                 }
-
                 break;
         }
     }
 
+    /**
+     * 直播地址拼接
+     * @param flag
+     * @param room_key
+     * @return
+     */
     private String stitchingAddress(String flag, String room_key) {
         String url = "";
         String[] flags = flag.split("_");
@@ -239,22 +298,67 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         mVideoPlayView.setVideoPath(url);
     }
 
+    @Override
+    public void showChatListInfo(LiveChatInfoBean bean) {
+        mRoomPresenter.connectToChatRoom(roomId, bean);
+    }
+
+    @Override
+    public void showDanMuData(DanMuDataBean bean) {
+        if (!bean.getFrom().getRid().equals("-1")) {
+            if (!bean.getFrom().getNickName().equals("")) {
+                mMuDataBeen.add(bean);
+                mChatListAdapter.notifyDataSetChanged();
+                mChatInfoView.scrollToPosition(mMuDataBeen.size()-1);
+            }
+        }
+
+        if (isShowDanmu) { //当弹幕显示时才填装
+            BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+            danmaku.text = bean.getContent();
+            danmaku.textSize = ScreenHelper.sp2px(this, 14);
+            danmaku.textColor = Color.WHITE;
+            danmaku.setTime(mDanmakuView.getCurrentTime());
+            mDanmakuView.addDanmaku(danmaku);
+        }
+    }
+
     /**
      * 设置房间信息显示
      *
      * @param data
      */
     private void setRoomInfo(LiveRoomBean.DataBean.InfoBean data) {
-        mFragmentList.add(ChatListFragment.getInstance(roomId));
-        mFragmentList.add(AnchorInfoFragment.getInstance(data));
-        mRoomPagerAdapter.notifyDataSetChanged();
-
         mRoomName.setText(data.getRoominfo().getName());
         mRoomNum.setText(String.format(getString(R.string.room_num), roomId));
         mRoomPersonNum.setText(String.format(getString(R.string.room_person_num),
                 data.getRoominfo().getPerson_num()));
         mRoomLiveType.setText(String.format(getString(R.string.room_type),
                 data.getRoominfo().getClassification()));
+        setAnchorInfo(data);
+    }
+
+    /**
+     * 设置房主房间信息
+     * @param data
+     */
+    private void setAnchorInfo(LiveRoomBean.DataBean.InfoBean data) {
+        LoaderImage.loadCircleImg(this,data.getHostinfo().getAvatar(),mAnchorHead);
+        mAnchorName.setText(data.getHostinfo().getName());
+        mAnchorRoomId.setText(String.format(getString(R.string.room_id),
+                data.getRoominfo().getId()));
+        String banboos = data.getHostinfo().getBamboos();
+        mAnchorHeight.setText(String.format(getString(R.string.anchor_height), SmallToolsHelper.unitConversion(banboos)));
+        int person_num = Integer.parseInt(data.getRoominfo().getFans());
+        String persons;
+        if (person_num > 10000) {
+            persons = String.format("%.1f", (person_num / 10000.0));
+            persons = persons + "万";
+        } else {
+            persons = String.valueOf(person_num);
+        }
+        mAnchorFans.setText(String.format(getString(R.string.anchor_fans), persons));
+        mAnchorLiveRoomDetail.setText(data.getRoominfo().getBulletin());
     }
 
     @Override
@@ -272,16 +376,29 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         super.onConfigurationChanged(newConfig);
         //当屏幕变为横屏时
         if (isLandscape()) {
+            //设置为全屏
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            mControlLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             mRoomInfoLayout.setVisibility(View.GONE);
             mFullScreen.setVisibility(View.GONE);
+            mDanmakuView.show();
+            isShowDanmu = true;
         } else {
+            //退出全屏
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mRoomInfoLayout.setVisibility(View.VISIBLE);
             mFullScreen.setVisibility(View.VISIBLE);
+            mDanmakuView.hide();
+            isShowDanmu = false;
         }
 
         updateVideoLayoutParams();
     }
 
+    /**
+     * 动态更新视频播放父view的高度
+     */
     private void updateVideoLayoutParams() {
         ViewGroup.LayoutParams lp = mVideoContent.getLayoutParams();
         if (isLandscape()) {
@@ -311,6 +428,10 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
             mControlHandler.removeMessages(HANDLER_HIDE_CONTROL);
             mControlHandler.sendEmptyMessageDelayed(HANDLER_HIDE_CONTROL, HANDLER_HIDE_TIME);
         } else {
+            if (mDanmakuView != null) {
+                mDanmakuView.release();
+                mDanmakuView = null;
+            }
             finish();
         }
     }
@@ -323,6 +444,7 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
         }
         if (mRoomPresenter != null) {
             mRoomPresenter.detachView();
+            mRoomPresenter.closeConnection();
         }
         if (mDanmakuView != null) {
             mDanmakuView.release();
@@ -355,10 +477,6 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     @Override
     public void onBackPressed() {
-        if (mDanmakuView != null) {
-            mDanmakuView.release();
-            mDanmakuView = null;
-        }
         clickBack();
     }
 

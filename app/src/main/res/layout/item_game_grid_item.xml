@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/item_game_grid_img"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dip_seventy"
+        android:layout_height="@dimen/dip_fifty"
         android:adjustViewBounds="true"/>
 
     <TextView

@@ -1,4 +1,4 @@
-package yyl.rabbitcloud.liveroom;
+package yyl.rabbitcloud.liveroom.bean;
 
 import java.io.Serializable;
 import java.util.List;

@@ -7,11 +7,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,18 +17,19 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler2;
-import in.srain.cube.views.ptr.PtrFrameLayout;
+import butterknife.ButterKnife;
+import yyl.rabbitcloud.App;
 import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.base.BaseActivity;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.di.component.DaggerActivityComponent;
 import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
 import yyl.rabbitcloud.liveroom.LiveRoomActivity;
-import yyl.rabbitcloud.util.ScreenHelper;
-import yyl.rabbitcloud.widget.MySwipeRefreshLayout;
-import yyl.rabbitcloud.widget.SpaceItemDecoration;
+import yyl.rabbitcloud.recyclerview.EndlessRecyclerOnScrollListener;
+import yyl.rabbitcloud.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import yyl.rabbitcloud.recyclerview.HeaderSpanSizeLookup;
+import yyl.rabbitcloud.recyclerview.LoadingFooter;
+import yyl.rabbitcloud.recyclerview.RecyclerViewStateUtils;
 
 /**
  * Created by yyl on 2017/6/19.
@@ -39,11 +38,11 @@ import yyl.rabbitcloud.widget.SpaceItemDecoration;
 public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDetailContract.View {
 
     @BindView(R.id.livetype_refresh)
-    MySwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.livetype_banner)
-    RollPagerView mBannerView;
+    SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.livetype_recyclerview)
     RecyclerView mRecyclerView;
+
+    private RollPagerView mBannerView;
 
     @Inject
     LiveTypeDetailPresenter mDetailPresenter;
@@ -59,9 +58,13 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
     private int pagerNow = 1;
     private int pagerNum = 20;
 
+    private int loadedItemDataNum;
+
     //Banner数据
     private List<LiveRoomListBean.DataBean.BannersBean> mBannersBeen;
     private LiveTypeBannerAdapter mBannerAdapter;
+
+    private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
 
     //item数据
     private List<LiveRoomListBean.DataBean.ItemsBean> mItemsBeen;
@@ -78,7 +81,8 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
         setToolbarTitle(typeName);
     }
 
-    public static void toLiveTypeDetailActivity(BaseActivity activity, String typeName, String
+    public static void toLiveTypeDetailActivity(
+            BaseActivity activity, String typeName, String
             type) {
         Intent intent = new Intent(activity, LiveTypeDetailActivity.class);
         intent.putExtra("typeName", typeName);
@@ -88,8 +92,7 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     protected void initUi() {
-        //设置此属性可以解决Scrollview嵌套RecycleView后，滑动卡顿的问题
-        mRecyclerView.setNestedScrollingEnabled(false);
+
     }
 
     @Override
@@ -98,17 +101,26 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
         mBannersBeen = new ArrayList<>();
         mItemsBeen = new ArrayList<>();
-        mBannerAdapter = new LiveTypeBannerAdapter(mBannerView, this);
         mTypeItemAdapter = new LiveTypeItemAdapter(this);
-        mBannerView.setAdapter(mBannerAdapter);
-        mRecyclerView.setAdapter(mTypeItemAdapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        int vSpacing = ScreenHelper.dp2px(this, 20);
-        int hSpacing = ScreenHelper.dp2px(this, 25);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, vSpacing, hSpacing, false));
 
+        mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter
+                (mTypeItemAdapter);
+        mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
+
+        GridLayoutManager manager = new GridLayoutManager(this, 2);
+        manager.setSpanSizeLookup(new HeaderSpanSizeLookup((HeaderAndFooterRecyclerViewAdapter)
+                mRecyclerView.getAdapter(), manager.getSpanCount()));
+        mRecyclerView.setLayoutManager(manager);
+
+        View headerView = getLayoutInflater().inflate(R.layout.viewpager_layout, mRecyclerView,
+                false);
+        mBannerView = ButterKnife.findById(headerView, R.id.livetype_banner);
+        mBannerAdapter = new LiveTypeBannerAdapter(mBannerView, this);
+        mBannerView.setAdapter(mBannerAdapter);
+        mHeaderAndFooterRecyclerViewAdapter.addHeaderView(headerView);
         mDetailPresenter.attachView(this);
         mDetailPresenter.getLiveTypeData(mTypeString, pagerNow, pagerNum);
+
     }
 
     @Override
@@ -132,20 +144,13 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
             @Override
             public void onClick(int position) {
                 LiveRoomListBean.DataBean.BannersBean bean = mBannersBeen.get(position);
-                LiveRoomActivity.toLiveRoomActivity(LiveTypeDetailActivity.this,bean.getRoomid());
+                LiveRoomActivity.toLiveRoomActivity(LiveTypeDetailActivity.this, bean.getRoomid());
             }
         });
 
-        mRefreshLayout.setPtrHandler(new PtrDefaultHandler2() {
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onLoadMoreBegin(PtrFrameLayout frame) {
-                mRefreshState = REFRESH_STATE_MORE;
-                pagerNow = pagerNow + 1;
-                mDetailPresenter.getLiveTypeData(mTypeString, pagerNow, pagerNum);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onRefresh() {
                 mRefreshState = REFRESH_STATE_UPDATE;
                 pagerNow = 1;
                 mDetailPresenter.getLiveTypeData(mTypeString, pagerNow, pagerNum);
@@ -157,12 +162,47 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
             @Override
             public void onClick(int position) {
-                LiveRoomListBean.DataBean.ItemsBean bean = mItemsBeen.get(position);
-                LiveRoomActivity.toLiveRoomActivity(LiveTypeDetailActivity.this,bean.getId());
+                //添加了header后，RecyclerView 子item的点击位置往后偏移header的数量个位置
+                LiveRoomListBean.DataBean.ItemsBean bean;
+                if (mHeaderAndFooterRecyclerViewAdapter.getHeaderViewsCount() != 0) {
+                    bean = mItemsBeen.get(position - mHeaderAndFooterRecyclerViewAdapter.getHeaderViewsCount());
+                } else {
+                    bean = mItemsBeen.get(position);
+                }
+                LiveRoomActivity.toLiveRoomActivity(LiveTypeDetailActivity.this, bean.getId());
             }
         });
 
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
+
     }
+
+    private EndlessRecyclerOnScrollListener mOnScrollListener = new
+            EndlessRecyclerOnScrollListener() {
+
+        @Override
+        public void onLoadNextPage(View view) {
+            super.onLoadNextPage(view);
+
+            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(mRecyclerView);
+            if (state == LoadingFooter.State.Loading) {
+                return;
+            }
+
+            if (loadedItemDataNum < pagerNum) {
+                //the end
+                RecyclerViewStateUtils.setFooterViewState(App.getAppInstance(),
+                        mRecyclerView, pagerNum, LoadingFooter.State.TheEnd, null);
+            } else {
+                // loading more
+                mRefreshState = REFRESH_STATE_MORE;
+                pagerNow = pagerNow + 1;
+                mDetailPresenter.getLiveTypeData(mTypeString, pagerNow, pagerNum);
+                RecyclerViewStateUtils.setFooterViewState(App.getAppInstance(),
+                        mRecyclerView, pagerNum, LoadingFooter.State.Loading, null);
+            }
+        }
+    };
 
     @Override
     public void showLiveTypeBannerData(List<LiveRoomListBean.DataBean.BannersBean> data) {
@@ -192,7 +232,9 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     public void showLiveTypeItemsData(List<LiveRoomListBean.DataBean.ItemsBean> data) {
-        mRefreshLayout.refreshComplete();
+        loadedItemDataNum = data.size();
+        mRefreshLayout.setRefreshing(false);
+        RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Normal);
         switch (mRefreshState) {
             case REFRESH_STATE_UPDATE:
                 mItemsBeen.clear();

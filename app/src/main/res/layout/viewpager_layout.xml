@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal">
+
+    <com.jude.rollviewpager.RollPagerView
+        android:id="@+id/livetype_banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_one_hundred_forty"
+        android:background="@color/white"
+        android:layout_marginBottom="@dimen/dip_fifteen"
+        android:orientation="vertical"/>
+
+</LinearLayout>

@@ -7,8 +7,8 @@ import yyl.rabbitcloud.bean.FindRoomInfoByIdBean;
 import yyl.rabbitcloud.bean.SearchRoomBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
-import yyl.rabbitcloud.liveroom.fragment.LiveChatInfoBean;
-import yyl.rabbitcloud.liveroom.LiveRoomBean;
+import yyl.rabbitcloud.liveroom.bean.LiveChatInfoBean;
+import yyl.rabbitcloud.liveroom.bean.LiveRoomBean;
 import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
 
 /**

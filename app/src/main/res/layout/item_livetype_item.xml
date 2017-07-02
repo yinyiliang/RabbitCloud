@@ -4,12 +4,14 @@
               android:id="@+id/item_lt_content"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:gravity="center"
+              android:padding="@dimen/dip_eight"
               android:orientation="vertical">
 
     <yyl.rabbitcloud.widget.RoundRectImageView
         android:id="@+id/item_lt_item_img"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dip_one_hundred"
+        android:layout_height="@dimen/dip_eighty"
         android:scaleType="centerCrop"
         tools:background="@color/md_grey_300"/>
 

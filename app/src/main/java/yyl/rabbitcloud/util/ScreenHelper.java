@@ -44,4 +44,15 @@ public class ScreenHelper {
         return (int) (pxValue / scale + 0.5f);
     }
 
+    /**
+     * sp转px
+     *
+     * @param spValue sp值
+     * @return px值
+     */
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
 }

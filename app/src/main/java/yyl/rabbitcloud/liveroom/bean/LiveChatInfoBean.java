@@ -1,4 +1,4 @@
-package yyl.rabbitcloud.liveroom.fragment;
+package yyl.rabbitcloud.liveroom.bean;
 
 import java.util.List;
 

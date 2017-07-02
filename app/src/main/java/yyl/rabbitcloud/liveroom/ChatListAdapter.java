@@ -1,11 +1,9 @@
-package yyl.rabbitcloud.liveroom.fragment;
+package yyl.rabbitcloud.liveroom;
 
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yyl.rabbitcloud.R;
+import yyl.rabbitcloud.liveroom.bean.DanMuDataBean;
 
 /**
  * Created by yyl on 2017/6/28.

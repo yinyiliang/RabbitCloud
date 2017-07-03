@@ -3,7 +3,7 @@ package yyl.rabbitcloud.main.gametype;
 import java.util.List;
 
 import yyl.rabbitcloud.base.BaseContract;
-import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
+import yyl.rabbitcloud.main.gametype.bean.CategoryGameListBean;
 
 /**
  * Created by yyl on 2017/6/19.

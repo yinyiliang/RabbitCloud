@@ -3,7 +3,7 @@ package yyl.rabbitcloud.livebycate;
 import java.util.List;
 
 import yyl.rabbitcloud.base.BaseContract;
-import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.livebycate.bean.LiveRoomListBean;
 
 /**
  * Created by yyl on 2017/6/21.

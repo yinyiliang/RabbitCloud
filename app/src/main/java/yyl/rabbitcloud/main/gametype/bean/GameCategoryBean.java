@@ -1,4 +1,4 @@
-package yyl.rabbitcloud.main.gametype.module;
+package yyl.rabbitcloud.main.gametype.bean;
 
 import java.util.List;
 

@@ -8,14 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yyl.rabbitcloud.R;
-import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
+import yyl.rabbitcloud.main.gametype.bean.CategoryGameListBean;
 import yyl.rabbitcloud.util.LoaderImage;
 
 /**

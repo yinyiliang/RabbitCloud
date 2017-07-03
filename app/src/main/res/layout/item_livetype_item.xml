@@ -5,7 +5,6 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center"
-              android:padding="@dimen/dip_eight"
               android:orientation="vertical">
 
     <yyl.rabbitcloud.widget.RoundRectImageView

@@ -1,7 +1,5 @@
 package yyl.rabbitcloud.livebycate;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,7 +10,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import yyl.rabbitcloud.base.RxPresenter;
 import yyl.rabbitcloud.http.RabbitApi;
-import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.livebycate.bean.LiveRoomListBean;
 
 /**
  * Created by yyl on 2017/6/21.

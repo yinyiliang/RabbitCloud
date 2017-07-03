@@ -6,11 +6,11 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import io.reactivex.Observable;
 import yyl.rabbitcloud.RabbitPublicValue;
-import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.livebycate.bean.LiveRoomListBean;
 import yyl.rabbitcloud.liveroom.bean.LiveChatInfoBean;
 import yyl.rabbitcloud.liveroom.bean.LiveRoomBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
-import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
+import yyl.rabbitcloud.main.gametype.bean.GameCategoryBean;
 
 /**
  * Created by yyl on 2017/6/17.

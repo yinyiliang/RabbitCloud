@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dip_one_hundred_forty"
         android:background="@color/white"
-        android:layout_marginBottom="@dimen/dip_fifteen"
         android:orientation="vertical"/>
 
 </LinearLayout>

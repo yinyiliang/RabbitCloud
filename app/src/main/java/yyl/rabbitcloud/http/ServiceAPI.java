@@ -6,10 +6,10 @@ import io.reactivex.Observable;
 import yyl.rabbitcloud.bean.FindRoomInfoByIdBean;
 import yyl.rabbitcloud.bean.SearchRoomBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
-import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.livebycate.bean.LiveRoomListBean;
 import yyl.rabbitcloud.liveroom.bean.LiveChatInfoBean;
 import yyl.rabbitcloud.liveroom.bean.LiveRoomBean;
-import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
+import yyl.rabbitcloud.main.gametype.bean.GameCategoryBean;
 
 /**
  * Created by yyl on 2017/6/1.

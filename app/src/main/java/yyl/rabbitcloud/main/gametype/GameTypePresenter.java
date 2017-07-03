@@ -1,7 +1,5 @@
 package yyl.rabbitcloud.main.gametype;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,9 +9,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import yyl.rabbitcloud.base.RxPresenter;
-import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
+import yyl.rabbitcloud.main.gametype.bean.CategoryGameListBean;
 import yyl.rabbitcloud.http.RabbitApi;
-import yyl.rabbitcloud.main.gametype.module.GameCategoryBean;
+import yyl.rabbitcloud.main.gametype.bean.GameCategoryBean;
 
 /**
  * Created by yyl on 2017/6/19.

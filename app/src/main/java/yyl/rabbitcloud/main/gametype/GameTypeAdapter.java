@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yyl.rabbitcloud.R;
-import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
+import yyl.rabbitcloud.main.gametype.bean.CategoryGameListBean;
 import yyl.rabbitcloud.widget.MyGridView;
 
 /**

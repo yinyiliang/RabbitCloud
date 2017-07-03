@@ -1,4 +1,4 @@
-package yyl.rabbitcloud.livebycate.module;
+package yyl.rabbitcloud.livebycate.bean;
 
 import java.util.List;
 

@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +15,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import yyl.rabbitcloud.R;
-import yyl.rabbitcloud.base.BaseFragment;
 import yyl.rabbitcloud.main.MainFragment;
-import yyl.rabbitcloud.main.gametype.module.CategoryGameListBean;
+import yyl.rabbitcloud.main.gametype.bean.CategoryGameListBean;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.di.component.DaggerFragmentComponent;
 import yyl.rabbitcloud.livebycate.LiveTypeDetailActivity;

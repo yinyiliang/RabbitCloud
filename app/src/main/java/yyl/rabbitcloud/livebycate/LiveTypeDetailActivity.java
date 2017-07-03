@@ -23,13 +23,15 @@ import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.base.BaseActivity;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.di.component.DaggerActivityComponent;
-import yyl.rabbitcloud.livebycate.module.LiveRoomListBean;
+import yyl.rabbitcloud.livebycate.bean.LiveRoomListBean;
 import yyl.rabbitcloud.liveroom.LiveRoomActivity;
 import yyl.rabbitcloud.recyclerview.EndlessRecyclerOnScrollListener;
 import yyl.rabbitcloud.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import yyl.rabbitcloud.recyclerview.HeaderSpanSizeLookup;
 import yyl.rabbitcloud.recyclerview.LoadingFooter;
 import yyl.rabbitcloud.recyclerview.RecyclerViewStateUtils;
+import yyl.rabbitcloud.util.ScreenHelper;
+import yyl.rabbitcloud.widget.SpaceItemDecoration;
 
 /**
  * Created by yyl on 2017/6/19.
@@ -112,9 +114,13 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
                 mRecyclerView.getAdapter(), manager.getSpanCount()));
         mRecyclerView.setLayoutManager(manager);
 
+        int spacing = ScreenHelper.dp2px(this, 15);
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, spacing, spacing, true));
+
         View headerView = getLayoutInflater().inflate(R.layout.viewpager_layout, mRecyclerView,
                 false);
         mBannerView = ButterKnife.findById(headerView, R.id.livetype_banner);
+        mBannerView.setPlayDelay(3000);
         mBannerAdapter = new LiveTypeBannerAdapter(mBannerView, this);
         mBannerView.setAdapter(mBannerAdapter);
         mHeaderAndFooterRecyclerViewAdapter.addHeaderView(headerView);

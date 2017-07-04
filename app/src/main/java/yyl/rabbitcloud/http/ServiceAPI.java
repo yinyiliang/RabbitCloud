@@ -10,6 +10,9 @@ import yyl.rabbitcloud.livebycate.bean.LiveRoomListBean;
 import yyl.rabbitcloud.liveroom.bean.LiveChatInfoBean;
 import yyl.rabbitcloud.liveroom.bean.LiveRoomBean;
 import yyl.rabbitcloud.main.gametype.bean.GameCategoryBean;
+import yyl.rabbitcloud.main.home.bean.AllLiveListBean;
+import yyl.rabbitcloud.main.home.bean.RecommendCardListBean;
+import yyl.rabbitcloud.main.home.bean.RecommendHeaderBean;
 
 /**
  * Created by yyl on 2017/6/1.
@@ -29,7 +32,13 @@ public interface ServiceAPI {
 
 
     //所有类别 返回其中10个频道  全部
-
+    /**
+     * http://api.m.panda.tv/ajax_live_lists?pageno=1&pagenum=20&status=2
+     * &order=person_num&sproom=1&__version=3.1.9.4018&__plat=android&__channel=huawei
+     */
+    @GET("ajax_live_lists?status=2&order=person_num&sproom=1&__version=3.1.9.4018&__plat=android&__channel=huawei")
+    Observable<AllLiveListBean> getAllLiveList(@Query("pageno") int pageno,
+                                               @Query("pagenum") int pagenum);
 
     //返回某个类别的数据
     /**
@@ -92,6 +101,8 @@ public interface ServiceAPI {
      *  &__version=3.1.7.3811&__plat=android&__channel=huawei
      *  &pt_sign=f359bba023a99e7376401efb316f9db5&pt_time=1497880899
      */
+    @GET("?method=slider.cate&cate=index&__version=3.1.7.3811&__plat=android&__channel=huawei")
+    Observable<RecommendHeaderBean> getRecommendHeaderData();
 
     /**
      * 热门
@@ -100,6 +111,8 @@ public interface ServiceAPI {
      * &__version=3.1.7.3811&__plat=android&__channel=huawei
      * &pt_sign=f359bba023a99e7376401efb316f9db5&pt_time=1497880899
      */
+    @GET("?method=card.list&cate=index&exclude_likeinfo=1&__version=3.1.7.3811&__plat=android&__channel=huawei")
+    Observable<RecommendCardListBean> getRecommendCardList();
 
     /**
      * 熊猫星颜

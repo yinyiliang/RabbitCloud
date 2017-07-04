@@ -248,7 +248,7 @@ public class LiveRoomPresenter extends RxPresenter<LiveRoomContract.View>
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("接收弹幕：" + e.toString());
+//                        Logger.e("接收弹幕：" + e.toString());
                     }
 
                     @Override
@@ -294,7 +294,7 @@ public class LiveRoomPresenter extends RxPresenter<LiveRoomContract.View>
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("解析弹幕：" + e.toString());
+//                        Logger.e("解析弹幕：" + e.toString());
                     }
 
                     @Override

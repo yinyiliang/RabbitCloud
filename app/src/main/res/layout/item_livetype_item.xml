@@ -1,57 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/item_lt_content"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/item_lt_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    <yyl.rabbitcloud.widget.RoundRectImageView
-        android:id="@+id/item_lt_item_img"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dip_eighty"
-        android:scaleType="centerCrop"
-        tools:background="@color/md_grey_300"/>
-
-    <TextView
-        android:id="@+id/item_lt_item_roomname"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dip_six"
-        android:layout_marginTop="@dimen/dip_six"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="@color/md_light_primary_text"
-        android:textSize="@dimen/sp_forteen"
-        tools:text="只要你愿意，人人都是王者"/>
+        android:layout_marginTop="@dimen/dip_two"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <yyl.rabbitcloud.widget.RoundRectImageView
+            android:id="@+id/item_lt_item_img"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dip_ninety"
+            android:scaleType="centerCrop"
+            tools:background="@color/md_grey_300"/>
 
         <TextView
-            android:id="@+id/item_lt_item_author"
+            android:id="@+id/item_lt_item_roomname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/dip_six"
+            android:layout_marginTop="@dimen/dip_six"
             android:ellipsize="end"
             android:maxLines="1"
-            android:layout_toStartOf="@+id/item_lt_item_rn"
-            android:textColor="@color/accent_grey"
-            android:textSize="@dimen/sp_twelve"
-            tools:text="啊毛时代"/>
+            android:textColor="@color/md_light_primary_text"
+            android:textSize="@dimen/sp_forteen"
+            tools:text="只要你愿意，人人都是王者"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_lt_item_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/item_lt_item_rn"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/accent_grey"
+                android:textSize="@dimen/sp_twelve"
+                tools:text="啊毛时代"/>
+
+            <TextView
+                android:id="@+id/item_lt_item_rn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:drawablePadding="@dimen/dip_four"
+                android:drawableStart="@drawable/ic_eye"
+                android:textColor="@color/accent_grey"
+                android:textSize="@dimen/sp_twelve"
+                tools:text="2000"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_hot_live_label"
+        android:visibility="gone"
+        android:layout_width="@dimen/dip_sixty"
+        android:layout_height="@dimen/dip_sixteen"
+        android:layout_centerHorizontal="true"
+        android:background="@color/accent_blue"
+        android:gravity="center">
 
         <TextView
-            android:id="@+id/item_lt_item_rn"
+            android:id="@+id/tv_hot_live_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:drawablePadding="@dimen/dip_four"
-            android:drawableStart="@drawable/ic_eye"
-            android:textColor="@color/accent_grey"
+            android:textColor="@color/white"
             android:textSize="@dimen/sp_twelve"
-            tools:text="2000"/>
-    </RelativeLayout>
-</LinearLayout>
+            tools:text="英雄联盟"/>
+    </LinearLayout>
+</RelativeLayout>

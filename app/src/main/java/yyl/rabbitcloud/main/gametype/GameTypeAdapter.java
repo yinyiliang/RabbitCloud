@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.main.gametype.bean.CategoryGameListBean;
+import yyl.rabbitcloud.util.SmallToolsHelper;
 import yyl.rabbitcloud.widget.MyGridView;
 
 /**
@@ -69,7 +70,7 @@ public class GameTypeAdapter extends RecyclerView.Adapter<GameTypeAdapter.ViewHo
             mGameGridAdapter.setChildDataBeen(bean.getChild_data());
         }
         //动态测量GridView的高度
-        setGridViewHeightByChildren(holder.mGameGridView);
+        SmallToolsHelper.setGridViewHeightByChildren(holder.mGameGridView);
         holder.gameName.setText(bean.getCname());
 
         holder.mGameGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,28 +79,6 @@ public class GameTypeAdapter extends RecyclerView.Adapter<GameTypeAdapter.ViewHo
                 mListener.onClick(position,i);
             }
         });
-    }
-
-    /**
-     * 根据子item的高度 动态测量GridView的实际高度
-     * @param gridView
-     */
-    private void setGridViewHeightByChildren(GridView gridView) {
-        ListAdapter listAdapter = gridView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        //总高度
-        int totalHeight = 0;
-        int lineNum = gridView.getNumColumns(); //得到布局文件中设置的一行显示几个
-        View item = listAdapter.getView(0,null,gridView);
-        item.measure(0,0); //计算子item的高度
-        //得到总高度
-        totalHeight = item.getMeasuredHeight()*lineNum;
-
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight;
-        gridView.setLayoutParams(params);
     }
 
     @Override
@@ -117,6 +96,7 @@ public class GameTypeAdapter extends RecyclerView.Adapter<GameTypeAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            mGameGridView.setNumColumns(4);
         }
 
     }

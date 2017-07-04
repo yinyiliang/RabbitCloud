@@ -19,6 +19,7 @@ import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.base.BaseFragment;
 import yyl.rabbitcloud.di.component.AppComponent;
 import yyl.rabbitcloud.main.home.fragment.AllListFragment;
+import yyl.rabbitcloud.main.home.fragment.ChijiFragment;
 import yyl.rabbitcloud.main.home.fragment.RecommendFragment;
 
 /**
@@ -58,7 +59,8 @@ public class HomeFragment extends BaseFragment {
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new RecommendFragment());
         mFragmentList.add(new AllListFragment());
-        titles = new String[]{"推荐", "全部"};
+        mFragmentList.add(new ChijiFragment());
+        titles = new String[]{"推荐", "全部", "吃鸡"};
         mPagerAdapter = HomePagerAdapter.getInstance(getChildFragmentManager(),
                 mFragmentList, titles);
         mViewPager.setAdapter(mPagerAdapter);

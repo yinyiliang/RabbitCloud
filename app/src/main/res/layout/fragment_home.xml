@@ -13,17 +13,19 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/home_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/accent_blue">
+            android:layout_height="@dimen/dip_forty"
+            android:background="@color/white">
 
             <android.support.design.widget.TabLayout
+                android:layout_gravity="center_horizontal"
                 android:id="@+id/home_tablayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dip_forty"
                 app:tabGravity="center"
-                app:tabIndicatorColor="@color/md_light_blue_A700"
+                app:tabIndicatorHeight="@dimen/dip_three"
+                app:tabIndicatorColor="@color/accent_blue"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/md_grey_500"
+                app:tabSelectedTextColor="@color/accent_blue"
                 app:tabTextColor="@color/md_grey_900"/>
 
         </android.support.v7.widget.Toolbar>

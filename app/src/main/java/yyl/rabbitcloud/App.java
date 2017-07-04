@@ -25,7 +25,7 @@ public class App extends Application {
         super.onCreate();
         sInstance = this;
 
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
 
         //为防止出现
         // "You must not call setTag() on a view Glide is targeting" on non-root ImageView

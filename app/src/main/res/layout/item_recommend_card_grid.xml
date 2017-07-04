@@ -21,7 +21,7 @@
             android:background="@color/accent_blue"/>
 
         <TextView
-            android:id="@+id/item_game_name"
+            android:id="@+id/item_card_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dip_ten"
@@ -37,12 +37,29 @@
     </LinearLayout>
 
     <yyl.rabbitcloud.widget.MyGridView
-        android:id="@+id/item_game_gridview"
+        android:id="@+id/item_card_gridview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:listSelector="@android:color/transparent"
         android:padding="@dimen/dip_ten"
-        android:verticalSpacing="@dimen/dip_ten"/>
+        android:horizontalSpacing="@dimen/dip_fifteen"
+        android:verticalSpacing="@dimen/dip_fifteen"/>
+
+    <LinearLayout
+        android:id="@+id/ll_live_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dip_ten"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_live_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/accent_blue"
+            tools:text="@string/live_room_count"/>
+    </LinearLayout>
 
 </LinearLayout>

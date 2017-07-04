@@ -11,6 +11,9 @@ import yyl.rabbitcloud.liveroom.bean.LiveChatInfoBean;
 import yyl.rabbitcloud.liveroom.bean.LiveRoomBean;
 import yyl.rabbitcloud.bean.SplashScreenBean;
 import yyl.rabbitcloud.main.gametype.bean.GameCategoryBean;
+import yyl.rabbitcloud.main.home.bean.AllLiveListBean;
+import yyl.rabbitcloud.main.home.bean.RecommendCardListBean;
+import yyl.rabbitcloud.main.home.bean.RecommendHeaderBean;
 
 /**
  * Created by yyl on 2017/6/17.
@@ -74,6 +77,27 @@ public class RabbitApi extends ObjectLoader {
      */
     public Observable<LiveChatInfoBean> getChatListInfo(String roomId) {
         return observe(service.getChatListInfo(roomId));
+    }
+
+    /**
+     * 返回全部类型的部分数据
+     */
+    public Observable<AllLiveListBean> getAllLiveList(int pageno, int pagenum) {
+        return observe(service.getAllLiveList(pageno, pagenum));
+    }
+
+    /**
+     * 获取推荐界面 header部分的数据
+     */
+    public Observable<RecommendHeaderBean> getRecommendHeaderData() {
+        return observe(service.getRecommendHeaderData());
+    }
+
+    /**
+     * 获取推荐界面 cardlist部分的数据
+     */
+    public Observable<RecommendCardListBean> getRecommendCardList() {
+        return observe(service.getRecommendCardList());
     }
 
 }

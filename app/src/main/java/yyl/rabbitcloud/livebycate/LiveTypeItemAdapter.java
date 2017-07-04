@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import yyl.rabbitcloud.R;
 import yyl.rabbitcloud.livebycate.bean.LiveRoomListBean;
+import yyl.rabbitcloud.main.home.bean.AllLiveListBean;
 import yyl.rabbitcloud.util.LoaderImage;
 import yyl.rabbitcloud.widget.RoundRectImageView;
 
@@ -23,16 +25,27 @@ import yyl.rabbitcloud.widget.RoundRectImageView;
 
 public class LiveTypeItemAdapter extends RecyclerView.Adapter<LiveTypeItemAdapter.ViewHolder> {
 
-    private List<LiveRoomListBean.DataBean.ItemsBean> mList;
+    public static final String TYPE_ALL = "all";
+    public static final String TYPE_CATE = "cate";
+
+    private List<LiveRoomListBean.DataBean.ItemsBean> mCateList;
+    private List<AllLiveListBean.DataBean.ItemsBean> mAllList;
     private Context mContext;
     private OnLiveTypeItemClickListener mItemClickListener;
+    private String dataType;
 
-    public LiveTypeItemAdapter(Context context) {
+    public LiveTypeItemAdapter(Context context, String dataType) {
         mContext = context;
+        this.dataType = dataType;
     }
 
     public void setItemList(List<LiveRoomListBean.DataBean.ItemsBean> list) {
-        mList = list;
+        mCateList = list;
+        notifyDataSetChanged();
+    }
+
+    public void setAllList(List<AllLiveListBean.DataBean.ItemsBean> allList) {
+        mAllList = allList;
         notifyDataSetChanged();
     }
 
@@ -53,13 +66,27 @@ public class LiveTypeItemAdapter extends RecyclerView.Adapter<LiveTypeItemAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        LiveRoomListBean.DataBean.ItemsBean bean = mList.get(position);
-        LoaderImage.loadLiveItemImg(mContext, bean.getPictures().getImg(),holder.mRoomImg);
-        holder.mRoomName.setText(bean.getName());
-        holder.mAuthorName.setText(bean.getUserinfo().getNickName());
-        int person_num = Integer.parseInt(bean.getPerson_num());
+        String imgUrl, roomName, authorName, personNum;
+        if (dataType.equals(TYPE_ALL)) {
+            AllLiveListBean.DataBean.ItemsBean bean = mAllList.get(position);
+            imgUrl = bean.getPictures().getImg();
+            roomName = bean.getName();
+            authorName = bean.getUserinfo().getNickName();
+            personNum = bean.getPerson_num();
+        } else {
+            LiveRoomListBean.DataBean.ItemsBean bean = mCateList.get(position);
+            imgUrl = bean.getPictures().getImg();
+            roomName = bean.getName();
+            authorName = bean.getUserinfo().getNickName();
+            personNum = bean.getPerson_num();
+        }
+
+        LoaderImage.loadLiveItemImg(mContext, imgUrl,holder.mRoomImg);
+        holder.mRoomName.setText(roomName);
+        holder.mAuthorName.setText(authorName);
+        int person_num = Integer.parseInt(personNum);
         String persons;
-        if (bean.getPerson_num().length() > 4) {
+        if (personNum.length() > 4) {
             persons = String.format("%.1f", person_num / 10000.0);
             persons = persons + "万";
         } else {
@@ -70,13 +97,18 @@ public class LiveTypeItemAdapter extends RecyclerView.Adapter<LiveTypeItemAdapte
 
     @Override
     public int getItemCount() {
-        return mList == null? 0:mList.size();
+
+        if (dataType.equals(TYPE_ALL)) {
+            return mAllList == null? 0:mAllList.size();
+        }
+
+        return mCateList == null? 0:mCateList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.item_lt_content)
-        LinearLayout itemContent;
+        RelativeLayout itemContent;
         @BindView(R.id.item_lt_item_img)
         RoundRectImageView mRoomImg;
         @BindView(R.id.item_lt_item_roomname)

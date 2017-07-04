@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
     @BindView(R.id.livetype_recyclerview)
     RecyclerView mRecyclerView;
 
+    private View headerView;
     private RollPagerView mBannerView;
 
     @Inject
@@ -84,8 +86,7 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
     }
 
     public static void toLiveTypeDetailActivity(
-            BaseActivity activity, String typeName, String
-            type) {
+            BaseActivity activity, String typeName, String type) {
         Intent intent = new Intent(activity, LiveTypeDetailActivity.class);
         intent.putExtra("typeName", typeName);
         intent.putExtra("typeString", type);
@@ -103,7 +104,7 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
         mBannersBeen = new ArrayList<>();
         mItemsBeen = new ArrayList<>();
-        mTypeItemAdapter = new LiveTypeItemAdapter(this);
+        mTypeItemAdapter = new LiveTypeItemAdapter(this, LiveTypeItemAdapter.TYPE_CATE);
 
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter
                 (mTypeItemAdapter);
@@ -114,16 +115,13 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
                 mRecyclerView.getAdapter(), manager.getSpanCount()));
         mRecyclerView.setLayoutManager(manager);
 
-        int spacing = ScreenHelper.dp2px(this, 15);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, spacing, spacing, true));
-
-        View headerView = getLayoutInflater().inflate(R.layout.viewpager_layout, mRecyclerView,
+        headerView = getLayoutInflater().inflate(R.layout.viewpager_layout, mRecyclerView,
                 false);
         mBannerView = ButterKnife.findById(headerView, R.id.livetype_banner);
         mBannerView.setPlayDelay(3000);
-        mBannerAdapter = new LiveTypeBannerAdapter(mBannerView, this);
+        mBannerAdapter = new LiveTypeBannerAdapter(mBannerView, this, LiveTypeBannerAdapter.TYPE_CATE);
         mBannerView.setAdapter(mBannerAdapter);
-        mHeaderAndFooterRecyclerViewAdapter.addHeaderView(headerView);
+
         mDetailPresenter.attachView(this);
         mDetailPresenter.getLiveTypeData(mTypeString, pagerNow, pagerNum);
 
@@ -212,6 +210,7 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     public void showLiveTypeBannerData(List<LiveRoomListBean.DataBean.BannersBean> data) {
+        int spacing = ScreenHelper.dp2px(this, 15);
         if (mRefreshState == REFRESH_STATE_UPDATE) {
             mBannersBeen.clear();
             mBannersBeen.addAll(data);
@@ -219,8 +218,11 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
             mBannersBeen.addAll(data);
         }
         if (data.size() == 0) {
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, spacing, spacing, false));
             mBannerView.setVisibility(View.GONE);
         } else {
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, spacing, spacing, true));
+            mHeaderAndFooterRecyclerViewAdapter.addHeaderView(headerView);
             mBannerView.setVisibility(View.VISIBLE);
 
             if (data.size() == 1) {

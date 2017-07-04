@@ -12,3 +12,12 @@
 
 这个属于个人开发作品。诸位勿传播于非技术人员，拒绝用于商业用途。勿大面积传播，以免被查水表谢谢合作^_^
 邮箱:yin_yiliang66@163.com
+=======
+#YinRabbit
+不断完成中...
+
+![游戏分类](http://oruhclifa.bkt.clouddn.com/live_type.png)
+![具体类型](http://oruhclifa.bkt.clouddn.com/live-detail.png)
+
+![直播播放](http://oruhclifa.bkt.clouddn.com/live_room.png)
+>>>>>>> a140ef7d75ea3ba465ea415ff565f167866a0419

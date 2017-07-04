@@ -2,8 +2,10 @@
 基于MVP的Retrofit2+rxjava2+dagger2+glide+PLDroidPlayer的直播 和 资讯浏览（计划中）APP，直播部分系仿熊猫TV，
 属于独立开发学习作品，仅供参考和学习，拒绝做一切商业用途，如有侵权，请告知删除。
 
-![游戏分类](http://oruhclifa.bkt.clouddn.com/Screenshot_1499088535.png)
+![游戏分类](http://oruhclifa.bkt.clouddn.com/live_type.png)
+![具体类型](http://oruhclifa.bkt.clouddn.com/live-detail.png)
 
+<<<<<<< HEAD
 ![具体类型](http://oruhclifa.bkt.clouddn.com/Screenshot_1499088545.png)
 
 ![直播播放](http://oruhclifa.bkt.clouddn.com/Screenshot_1499088552.png)
@@ -21,3 +23,6 @@
 
 ![直播播放](http://oruhclifa.bkt.clouddn.com/live_room.png)
 >>>>>>> a140ef7d75ea3ba465ea415ff565f167866a0419
+=======
+![直播播放](http://oruhclifa.bkt.clouddn.com/live_room.png)
+>>>>>>> ff4b87455de20b023f9b5412a56d0434137c245f

@@ -67,15 +67,16 @@ public class RecommendRecyclerViewAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         RecommendCardListBean.DataBean bean = mCardBeanList.get(position);
+        boolean isHotList = bean.getCard_type().equals("hotlist");
 
         CardGridItemAdapter gridItemAdapter;
         if (holder.mTypeGridView.getAdapter() != null) {
             gridItemAdapter = (CardGridItemAdapter) holder.mTypeGridView.getAdapter();
-            gridItemAdapter.setBeanList(bean.getItems());
+            gridItemAdapter.setBeanList(bean.getItems(),isHotList);
         } else {
             gridItemAdapter = new CardGridItemAdapter(mContext);
             holder.mTypeGridView.setAdapter(gridItemAdapter);
-            gridItemAdapter.setBeanList(bean.getItems());
+            gridItemAdapter.setBeanList(bean.getItems(),isHotList);
         }
 
         //动态测量GridView的高度

@@ -67,7 +67,7 @@
         android:layout_width="@dimen/dip_sixty"
         android:layout_height="@dimen/dip_sixteen"
         android:layout_centerHorizontal="true"
-        android:background="@color/accent_blue"
+        android:background="@drawable/round_six_accent_blue"
         android:gravity="center">
 
         <TextView

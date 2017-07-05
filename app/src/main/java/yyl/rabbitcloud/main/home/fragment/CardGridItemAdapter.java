@@ -26,13 +26,16 @@ public class CardGridItemAdapter extends BaseAdapter {
 
     private List<RecommendCardListBean.DataBean.ItemsBean> mBeanList;
     private Context mContext;
+    private boolean isHotList;
 
     public CardGridItemAdapter(Context context) {
         mContext = context;
     }
 
-    public void setBeanList(List<RecommendCardListBean.DataBean.ItemsBean> beanList) {
-        mBeanList = beanList;
+    public void setBeanList(List<RecommendCardListBean.DataBean.ItemsBean> beanList,
+                            boolean isHotList) {
+        this.mBeanList = beanList;
+        this.isHotList = isHotList;
         notifyDataSetChanged();
     }
 
@@ -79,6 +82,12 @@ public class CardGridItemAdapter extends BaseAdapter {
         holder.mOnLookers.setText(persons);
 
         //TODO 如果是热门数据 则添加标示
+        if (isHotList) {
+            holder.ll_item_label.setVisibility(View.VISIBLE);
+            holder.mHotItemTitle.setText(bean.getClassification().getCname());
+        } else {
+            holder.ll_item_label.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

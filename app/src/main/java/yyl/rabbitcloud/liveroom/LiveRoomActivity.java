@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -110,6 +111,8 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
     private static final int HANDLER_HIDE_CONTROL = 100;    //自动隐藏mControlLayout
     private static final int HANDLER_HIDE_TIME = 5 * 1000; //mControlLayout的自动隐藏时间
 
+    private Uri mUri;
+
     private Handler mControlHandler;
     private boolean isControlLayoutVisible = true;
 
@@ -148,7 +151,12 @@ public class LiveRoomActivity extends BaseActivity implements LiveRoomContract.V
 
     @Override
     protected void initData() {
-        roomId = getIntent().getStringExtra("roomId");
+        mUri = getIntent().getData();
+        if (mUri != null) {
+            roomId = mUri.getLastPathSegment();
+        } else {
+            roomId = getIntent().getStringExtra("roomId");
+        }
 
         mTitles = new String[]{"聊天", "主播"};
         mViewList = new ArrayList<>();

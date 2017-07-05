@@ -39,10 +39,26 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".livebycate.LiveTypeDetailActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="com.yyl.rabbit_opentype"/>
+                <data android:scheme="pandatv"/>
+                <data android:host="cate"/>
+                <data android:host="mixcate"/>
+                <data android:pathPattern="*"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".liveroom.LiveRoomActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize">
+
+            <intent-filter>
+                <action android:name="com.yyl.rabbit_openroom"/>
+                <data android:scheme="pandatv"/>
+                <data android:host="openroom"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

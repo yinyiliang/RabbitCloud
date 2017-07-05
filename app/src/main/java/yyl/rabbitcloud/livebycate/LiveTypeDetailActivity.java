@@ -2,10 +2,12 @@ package yyl.rabbitcloud.livebycate;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.jude.rollviewpager.RollPagerView;
@@ -63,6 +65,10 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
     private int pagerNum = 20;
 
     private int loadedItemDataNum;
+    private int spacing;
+    private boolean isFirstEnter = true;
+
+    private Uri mUri;
 
     //Banner数据
     private List<LiveRoomListBean.DataBean.BannersBean> mBannersBeen;
@@ -81,7 +87,13 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     protected void initToolBar() {
-        String typeName = getIntent().getStringExtra("typeName");
+        mUri = getIntent().getData();
+        String typeName;
+        if (mUri != null) {
+            typeName = mUri.getQueryParameter("title");
+        } else {
+            typeName = getIntent().getStringExtra("typeName");
+        }
         setToolbarTitle(typeName);
     }
 
@@ -100,8 +112,21 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     protected void initData() {
-        mTypeString = getIntent().getStringExtra("typeString");
+        //当为隐式启动时
+        if (mUri != null) {
+            switch (mUri.getHost()) {
+                case "cate":
+                    mTypeString = mUri.getLastPathSegment();
+                    break;
+                case "mixcate":
+                    mTypeString = mUri.getQueryParameter("cate");
+                    break;
+            }
+        } else {
+            mTypeString = getIntent().getStringExtra("typeString");
+        }
 
+        spacing = ScreenHelper.dp2px(this, 15);
         mBannersBeen = new ArrayList<>();
         mItemsBeen = new ArrayList<>();
         mTypeItemAdapter = new LiveTypeItemAdapter(this, LiveTypeItemAdapter.TYPE_CATE);
@@ -210,32 +235,37 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     public void showLiveTypeBannerData(List<LiveRoomListBean.DataBean.BannersBean> data) {
-        int spacing = ScreenHelper.dp2px(this, 15);
+
         if (mRefreshState == REFRESH_STATE_UPDATE) {
             mBannersBeen.clear();
             mBannersBeen.addAll(data);
         } else {
             mBannersBeen.addAll(data);
         }
-        if (data.size() == 0) {
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, spacing, spacing, false));
-            mBannerView.setVisibility(View.GONE);
-        } else {
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, spacing, spacing, true));
-            mHeaderAndFooterRecyclerViewAdapter.addHeaderView(headerView);
-            mBannerView.setVisibility(View.VISIBLE);
-
-            if (data.size() == 1) {
-                mBannerView.setHintView(null);
+        //第一次调用，判断是否添加头部view，以及对间隔的处理。
+        if (isFirstEnter) {
+            if (data.size() == 0) {
+                mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, spacing, spacing, false));
+                mBannerView.setVisibility(View.GONE);
             } else {
-                //banner数据大于1时才开启轮播
-                mBannerView.setPlayDelay(2000);
-                mBannerView.setHintView(new ColorPointHintView
-                        (this, ContextCompat.getColor(this, R
-                                .color.md_green_A200), Color.WHITE));
+                mRecyclerView.addItemDecoration(new SpaceItemDecoration(2, spacing, spacing, true));
+                mHeaderAndFooterRecyclerViewAdapter.addHeaderView(headerView);
+                mBannerView.setVisibility(View.VISIBLE);
+
+                if (data.size() == 1) {
+                    mBannerView.setHintView(null);
+                } else {
+                    //banner数据大于1时才开启轮播
+                    mBannerView.setPlayDelay(2000);
+                    mBannerView.setHintView(new ColorPointHintView
+                            (this, ContextCompat.getColor(this, R.color.md_green_A200),
+                                    Color.WHITE));
+                }
+                mBannerAdapter.setBannersData(mBannersBeen);
             }
-            mBannerAdapter.setBannersData(mBannersBeen);
         }
+
+        isFirstEnter = false;
     }
 
     @Override
@@ -253,6 +283,9 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
                 break;
         }
 
+        if (mItemsBeen.get(1).getClassification().getCname() != null) {
+            setToolbarTitle(mItemsBeen.get(1).getClassification().getCname());
+        }
         mTypeItemAdapter.setItemList(mItemsBeen);
     }
 

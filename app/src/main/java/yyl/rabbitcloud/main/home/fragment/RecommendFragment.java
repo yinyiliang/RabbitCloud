@@ -133,6 +133,24 @@ public class RecommendFragment extends MainFragment implements RecommendContract
         mNavsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RecommendHeaderBean.DataBean.NavsBean bean = mNavsBeanList.get(i);
+                Uri uri = Uri.parse(bean.getUrl());
+                String host = uri.getHost();
+                switch (host) {
+                    case "cate":
+                    case "mixcate":
+                        Intent intent1 = new Intent(mMainActivity, LiveTypeDetailActivity.class);
+                        intent1.setAction("com.yyl.rabbit_opentype");
+                        intent1.setData(uri);
+                        startActivity(intent1);
+                        break;
+                    case "openroom":
+                        Intent intent2 = new Intent(mMainActivity, LiveRoomActivity.class);
+                        intent2.setAction("com.yyl.rabbit_openroom");
+                        intent2.setData(uri);
+                        startActivity(intent2);
+                        break;
+                }
 
             }
         });

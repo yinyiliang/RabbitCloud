@@ -141,6 +141,7 @@ public class RecommendFragment extends MainFragment implements RecommendContract
                     case "mixcate":
                         Intent intent1 = new Intent(mMainActivity, LiveTypeDetailActivity.class);
                         intent1.setAction("com.yyl.rabbit_opentype");
+                        intent1.putExtra("typeName", bean.getTitle());
                         intent1.setData(uri);
                         startActivity(intent1);
                         break;

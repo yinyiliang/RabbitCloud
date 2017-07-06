@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dip_fifteen"
+                android:paddingTop="@dimen/dip_fifteen">
+
+    <ImageView
+        android:id="@+id/search_result_header"
+        android:layout_width="@dimen/dip_sixty"
+        android:layout_height="@dimen/dip_sixty"
+        android:layout_marginStart="@dimen/dip_twenty"
+        android:layout_marginTop="@dimen/dip_six"
+        android:scaleType="centerCrop"
+        tools:background="@color/accent_blue"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dip_twenty"
+        android:layout_toEndOf="@id/search_result_header"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/search_result_anchor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/md_light_primary_text"
+            android:textSize="@dimen/sp_sixteen"
+            android:textStyle="bold"
+            tools:text="陈浪、"/>
+
+        <TextView
+            android:id="@+id/search_stream_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dip_four"
+            android:layout_toEndOf="@id/search_result_anchor_name"
+            android:background="@drawable/round_four_accent_blue"
+            android:paddingTop="@dimen/dip_two"
+            android:paddingBottom="@dimen/dip_two"
+            android:paddingStart="@dimen/dip_four"
+            android:paddingEnd="@dimen/dip_four"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="直播中"/>
+
+        <TextView
+            android:id="@+id/search_result_room_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_stream_status"
+            android:layout_marginTop="@dimen/dip_four"
+            android:textColor="@color/md_light_secondary"
+            android:textSize="@dimen/sp_forteen"
+            tools:text="房间名：单排冲7000！！！"/>
+
+        <TextView
+            android:id="@+id/search_result_roomid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_result_room_name"
+            android:layout_marginBottom="@dimen/dip_four"
+            android:layout_marginTop="@dimen/dip_four"
+            android:textColor="@color/md_light_secondary"
+            android:textSize="@dimen/sp_forteen"
+            tools:text="房间号：353435"/>
+
+        <TextView
+            android:id="@+id/search_result_fans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_result_roomid"
+            android:textColor="@color/md_light_secondary"
+            android:textSize="@dimen/sp_forteen"
+            tools:text="粉丝数：1920"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="@dimen/dip_twenty"
+        android:layout_height="@dimen/dip_twenty"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/dip_fifteen"
+        android:background="@drawable/arrow_right_grey"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_zero_point_five"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/dip_fifteen"
+        android:layout_marginStart="@dimen/dip_fifteen"
+        android:background="@color/md_light_dividers"/>
+</RelativeLayout>

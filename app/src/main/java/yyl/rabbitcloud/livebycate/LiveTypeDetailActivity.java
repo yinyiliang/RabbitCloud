@@ -87,13 +87,8 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     protected void initToolBar() {
-        mUri = getIntent().getData();
-        String typeName;
-        if (mUri != null) {
-            typeName = mUri.getQueryParameter("title");
-        } else {
-            typeName = getIntent().getStringExtra("typeName");
-        }
+
+        String typeName = getIntent().getStringExtra("typeName");
         setToolbarTitle(typeName);
     }
 
@@ -112,6 +107,7 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
 
     @Override
     protected void initData() {
+        mUri = getIntent().getData();
         //当为隐式启动时
         if (mUri != null) {
             switch (mUri.getHost()) {
@@ -283,9 +279,6 @@ public class LiveTypeDetailActivity extends BaseActivity implements LiveTypeDeta
                 break;
         }
 
-        if (mItemsBeen.get(1).getClassification().getCname() != null) {
-            setToolbarTitle(mItemsBeen.get(1).getClassification().getCname());
-        }
         mTypeItemAdapter.setItemList(mItemsBeen);
     }
 
